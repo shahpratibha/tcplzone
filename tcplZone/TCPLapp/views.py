@@ -3,41 +3,32 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404 
-from .models import India, tcplbook
+from .models import BookMarks
 from django.views.decorators.csrf import csrf_exempt
-
 import requests
-# import logging
-
-
-
-# logger = logging.getLogger(__name__)
-
-# def my_view(request):
-#     logger.debug("Debug message")
-#     logger.info("Info message")
-#     logger.warning("Warning message")
-#     logger.error("Error message")
-    
-#     # Your view logic here
-    
-#     return HttpResponse("Response")
-
-#Create view here.
 
 @login_required(login_url='login')
 def main(request):
+
+    bookmarks_from_database = BookMarks.objects.select_related('user')
     user = request.user
-    bookmarks = tcplbook.objects.filter()
+    print(bookmarks_from_database,"___________________++++++++++++++++++++++++++")
     if request.method == 'POST':
+        # data_bookmark = request.POST.get('name')
+        # print(data_bookmark['lat'])
         name = request.POST.get('name')
         latitude = request.POST.get('lat')
         longitude = request.POST.get('lng')
-        user = request.user
-        new_bookmark = tcplbook.objects.create(name=name, latitude=latitude, longitude=longitude)
+        new_bookmark = BookMarks.objects.create(name=name, latitude=latitude, longitude=longitude)
         new_bookmark.save()
-        # return redirect('main')
-    return render(request, "TCPLapp/main.html", {'bookmarks': bookmarks})
+        return redirect('main')
+    return render(request, "TCPLapp/main.html", {'bookmarks': bookmarks_from_database})
+
+
+
+
+
+
 
 # registration______________________________________________________________________
 def registration(request):
@@ -117,7 +108,7 @@ def india_data(request):
 # def create_bookmark(request):
 #     print('hellooooooo')
 #     return render(request, 'create_bookmark.html')
-
+# @login_required(login_url='login')
 def save_bookmark(request):
     print("first")
     if request.method == 'POST':
@@ -125,18 +116,19 @@ def save_bookmark(request):
         name = request.POST.get('name')
         latitude = request.POST.get('latitude')
         longitude = request.POST.get('longitude')
+        user = request.user 
         # screenshot = request.FILES.get('screenshot')
         print(latitude, "hello")
-        new_bookmark = tcplbook(name=name, latitude=latitude, longitude=longitude)
+        new_bookmark = tcplbook(name=name, latitude=latitude, longitude=longitude, user=user)
         new_bookmark.save()
         print(name, "Bookmark saved successfully")
-        # return redirect('main')
-
-@csrf_exempt
-def delete_location(request):
-    if request.method == 'POST':
-        location_id = request.POST.get('location_id')
-        bookmark = get_object_or_404(Book, pk=location_id)
-        bookmark.delete()
         return redirect('main')
-    return redirect('main')
+
+# @csrf_exempt
+# def delete_location(request):
+#     if request.method == 'POST':
+#         location_id = request.POST.get('location_id')
+#         bookmark = get_object_or_404(tcplbook, pk=location_id)
+#         bookmark.delete()
+#         return redirect('main')
+#     return redirect('main')

@@ -68,7 +68,7 @@
                     <li>
                         <!-- *************************prompt ************** -->
  <!-- Display bookmarks -->
-<div class="dropdown">
+ <div class="dropdown">
     <button class="btn btn-outline-secondary dropdown-toggle text-light ms-1" type="button" id="locationDropdown"
         data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fad fa-bookmark"></i> Bookmarks
@@ -77,9 +77,9 @@
         <li>
             <div class="dropdown-divider"></div>
             <div class="dropdown">
-            <button id="createBookmarkBtn" class="dropdown-item" style="font-size:10px; color: #dddddd;" type="button" id="childDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+             <button id="createBookmarkBtn" class="dropdown-item" style="font-size:10px; color: #dddddd;" type="button" id="childDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                 Create Bookmark <i class="fal fa-plus-circle"></i>
-            </button>
+            </button> 
             <form id="createBookmarkForm" style="display: none;" method="POST" action="{% url 'save_bookmark' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="text" name="name" placeholder="Bookmark Name" required>
@@ -89,43 +89,29 @@
               </form>
 
             <div class="dropdown-menu" aria-labelledby="childDropdown">
+                <script>
+                // When the `Create Bookmark` button is clicked, open the form
+                function createBookmark() {
+                  // Get the form element
+                  const form = document.getElementById("createBookmarkForm");
+
+                  // Show the form
+                  form.style.display = "block";
+                }
+                </script>
                 <!-- Create Bookmark Form -->
-                
             </div>
             </div>
                
 
         </li>
-        {% for bookmark in bookmarks %}
-        <li class="d-flex">
-            <a class="zoom-link text-light" style="font-size: 15px;" href="#"
-                onclick="zoomToLocation({{ bookmark.latitude }}, {{ bookmark.longitude }})">
-                {{ bookmark.name }}
-            </a>
-            <button class="delete-button border-0 bg-transparent text-secondary ms-auto px-4"
-                data-location-id="{{ bookmark.id }}" onclick="deleteLocation({{ bookmark.id }})">
-                <i class="fas fa-trash-alt"></i>
-            </button>
-        </li>
-        {% endfor %}
-      
+
     </ul>
 </div>
-
                     </li>
 
 
-    <!--
-                    <li class="nav-item">
-                    <hr style="color: #dddddd;">
-                        <form method="post" >
-                            <h4 style="color:#dddddd ; padding: 30px;">Select Option</h4>
-                            {% csrf_token %} 
-                        <a type="button" class="btn" href="{% url 'main' %}">Search Village, Gut_Number, Taluka</a></br>
-                            <a type="button" class="btn" href="{% url 'coordinates' %}" >Search Coordinates</a></br>
-                            <a type="button" class="btn" href="{% url 'kml' %}" >Import & Draw kml</a>
-                        </form>
-                    </li>-->
+ 
                 </ul>
             </aside>
     
@@ -180,7 +166,16 @@
         
             var saveBookmarkUrl = "{% url 'save_bookmark' %}";
           </script>
-
+          <script>
+            // When the `Create Bookmark` button is clicked, open the form
+            function createBookmark() {
+              // Get the form element
+              const form = document.getElementById("createBookmarkForm");
+            
+              // Show the form
+              form.style.display = "block";
+            }
+            </script>
 
                     <!--html2canvas-->
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>

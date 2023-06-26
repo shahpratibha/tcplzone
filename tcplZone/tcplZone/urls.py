@@ -20,7 +20,7 @@ urlpatterns = [
     
     path('save_bookmark/', views.save_bookmark, name='save_bookmark'),
     # path('create_bookmark/', views.create_bookmark, name='create_bookmark'),
-    path('delete-location/', views.delete_location, name='delete_location'),
+    # path('delete-location/', views.delete_location, name='delete_location'),
 
     path('india/', views.india_data, name='india_data'),
     

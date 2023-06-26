@@ -478,69 +478,66 @@ function toggleSidebar() {
 
 //Bookmark_____________________________________________________________________
 
-// Define the getMapCenter function before createBookmark function
+// Define the getMapCenter function
 function getMapCenter() {
-    console.log("welcome ");
+  // var map =  L.map('map');
   var mapCenter = map.getCenter();
-  var latitude = mapCenter.lat;
-  var longitude = mapCenter.lng;
-  return { lat: latitude, lng: longitude };
+  var latitude = mapCenter.lat();
+  var longitude = mapCenter.lng();
+  return {
+    latitude: latitude,
+    longitude: longitude
+  };
+}
+// Define the showCreateBookmarkForm function
+function showCreateBookmarkForm(event) {
+  var createBookmarkForm = document.getElementById("createBookmarkForm");
+  createBookmarkForm.style.display = "block";
+
+  if (createBookmarkForm) {
+    var mapCenter = getMapCenter();
+    var latitude = mapCenter.lat;
+    var longitude = mapCenter.lng;
+
+    html2canvas(document.getElementById("map")).then(function(canvas) {
+      var screenshotData = canvas.toDataURL();
+      console.log("Screenshot data:", screenshotData);
+
+      var csrfTokenElement = document.querySelector(
+        'input[name="csrfmiddlewaretoken"]'
+      );
+      var csrfToken = csrfTokenElement ? csrfTokenElement.value : "";
+
+      $.ajax({
+        type: "POST",
+        url: saveBookmarkUrl,
+        data: {
+          screenshot: screenshotData,
+          name: createBookmarkForm.name.value,
+          latitude: mapCenter.latitude,
+          longitude: mapCenter.longitude,
+          csrfmiddlewaretoken: csrfToken
+        },
+        success: function(response) {
+          console.log("Bookmark saved successfully:", response);
+          // location.reload();
+        },
+        error: function(xhr, status, error) {
+          console.error("Error saving bookmark:", error);
+        }
+      });
+    });
+  }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    var createBookmarkBtn = document.getElementById("createBookmarkBtn");
-    if (createBookmarkBtn) {
-      createBookmarkBtn.addEventListener("click", showCreateBookmarkForm);
-    } 
-    function showCreateBookmarkForm(event) {
-        console.log("welcome heeeelloo");
-
-        event.preventDefault(); // Prevent the default form submission behavior
-       
-        var createBookmarkForm = document.getElementById("createBookmarkForm");
-        
-        createBookmarkForm.style.display = "block";
-
-    if (createBookmarkForm) {
-      var mapCenter = getMapCenter();
-      var latitude = mapCenter.lat;
-      console.log(latitude,"dfgfhdsgdfhfdhfghfghh")
-      var longitude = mapCenter.lng;
-
-      html2canvas(document.getElementById("map")).then(function(canvas) {
-        var screenshotData = canvas.toDataURL();
-
-        var csrfTokenElement = document.querySelector(
-          'input[name="csrfmiddlewaretoken"]'
-        );
-        var csrfToken = csrfTokenElement ? csrfTokenElement.value : "";
-
-       
-
-        $.ajax({
-          type: "POST",
-          url: saveBookmarkUrl,
-          data: {
-            screenshot: screenshotData,
-            name: createBookmarkForm.name.value,
-            latitude: latitude,
-            longitude: longitude,
-            csrfmiddlewaretoken: csrfToken
-          },
-         
-          success: function(response) {
-            console.log("Bookmark saved successfully:", response);
-            location.reload();
-          },
-          error: function(xhr, status, error) {
-            console.error("Error saving bookmark:", error);
-          }
-        });
-      });
-    }
-  }
-});
-
+// Add an event listener to the createBookmarkBtn
+var createBookmarkBtn = document.getElementById("createBookmarkBtn");
+if (createBookmarkBtn) {
+  createBookmarkBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    showCreateBookmarkForm();
+  });
+}
 //     document.addEventListener('DOMContentLoaded', function() {
 //     var createBookmarkBtn = document.getElementById('createBookmarkBtn');
 //     if (createBookmarkBtn) {
