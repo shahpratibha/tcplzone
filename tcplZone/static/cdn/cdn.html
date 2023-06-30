@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cdn</title>
+
+<!-- This is how to include a static file -->
+<link rel="stylesheet" href="{% static 'css/mystyle.css' type='text/css' %}" />
+<!-- <link rel="stylesheet" href="{% static 'libs/jquery.jsjquery-ui-1.12.1/jquery-ui.css' %}"> -->
+<!-- Leaflet -->
+<link rel="stylesheet" href="{% static 'libs/leaflet/leaflet.css' %}" />
+ <!-- BOOTSTRAP only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!-- ZoomBar & slider-->
+<link rel="stylesheet" href="{% static 'libs/L.Control.ZoomBar-master/src/L.Control.ZoomBar.css' %}" />
+<link rel="stylesheet" href="{% static 'libs/Leaflet.zoomslider-master/src/L.Control.Zoomslider.css' %}" />
+<!-- MousePosition -->
+<link rel="stylesheet" href="{% static 'libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css ' %}" />
+<!-- line-measure -->
+<link rel="stylesheet" href="{% static 'libs/polyline-measure/line-measure.css' %}" />
+<link rel="stylesheet" href="{% static 'libs/leaflet-measure-master/leaflet-measure.css' %}" />
+<!-- draw -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+<!-- legend -->
+<link rel="stylesheet" href="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.css' %}" />
+<!-- html2pdfcdn -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
+<!-- fontawsome -->
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+<!-- Add SweetAlert CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+
+    
+</head>
+<body>
+    
+
+    
+                    <!--html2canvas-->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+                    <!-- jquery -->
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+                    <!--leaflet-->
+                    <script src="{% static 'libs/leaflet/leaflet.js' %}"></script>
+                      <!--Bootstrap-->
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+                      <!--Zoombar-->
+                    <script  src="{% static 'libs/L.Control.ZoomBar-master/src/L.Control.ZoomBar.js' %}"></script>
+                    <script src="{% static 'libs/Leaflet.zoomslider-master/src/L.Control.Zoomslider.js' %}"></script>
+                      <!--Mouse-position-->        
+                    <script src="{% static 'libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js' %}"></script>
+                      <!--line measurement-->        
+                    <script src="{% static 'libs/polyline-measure/line-measure.js' %}"></script>
+                      <!--meausrent-->        
+                    <script src="{% static 'libs/leaflet-measure-master/leaflet-measure.js' %}"></script>
+                    <script src="{% static 'libs/feat.js' %}"></script>
+                      <!--draw-control-->        
+                    <script src="{% static 'libs/leaflet-draw-control/leaflet-draw-control.js' %}"></script>
+                      <!--legend-->        
+                    <script src="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.js' %}"></script>
+                      <!--html2pdf-->        
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+                        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+                        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                      <!--leaflet-image-->        
+                    <script src="{% static 'libs/leaflet-image.js' %}"></script>
+                      <!--Leaflet Omnivore KML plugin -->       
+                    <script src="https://unpkg.com/leaflet-omnivore/leaflet-omnivore.min.js"></script>
+                      <!--sweetalert-->        
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+                
+                
+                  
+          <script src="{% static 'js/map.js' %}"></script>
+
+</body>
+</html>

@@ -12,359 +12,183 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo1.png' %}">
 
     <title>TCPL</title>
-    
-                                     <!-- This is how to include a static file -->
- <link rel="stylesheet" href="{% static 'css/mystyle.css' type='text/css' %}" />
- 
-
-
-                    
-    
-<!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- <link rel="stylesheet"
- href="{% static 'libs/jquery.jsjquery-ui-1.12.1/jquery-ui.css' %}"> -->
-
-                                    <!--leaflet-->
+    <!-- This is how to include a static file -->
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' type='text/css' %}" />
+    <!-- <link rel="stylesheet" href="{% static 'libs/jquery.jsjquery-ui-1.12.1/jquery-ui.css' %}"> -->
     <!-- Leaflet -->
-
     <link rel="stylesheet" href="{% static 'libs/leaflet/leaflet.css' %}" />
-    <script src="{% static 'libs/leaflet/leaflet.js' %}"></script>
+     <!-- BOOTSTRAP only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- ZoomBar & slider-->
+    <link rel="stylesheet" href="{% static 'libs/L.Control.ZoomBar-master/src/L.Control.ZoomBar.css' %}" />
+    <link rel="stylesheet" href="{% static 'libs/Leaflet.zoomslider-master/src/L.Control.Zoomslider.css' %}" />
+    <!-- MousePosition -->
+    <link rel="stylesheet" href="{% static 'libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css ' %}" />
+    <!-- line-measure -->
+    <link rel="stylesheet" href="{% static 'libs/polyline-measure/line-measure.css' %}" />
+    <link rel="stylesheet" href="{% static 'libs/leaflet-measure-master/leaflet-measure.css' %}" />
+    <!-- draw -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+    <!-- legend -->
+    <link rel="stylesheet" href="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.css' %}" />
+    <!-- html2pdfcdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+
+    <!-- fontawsome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <!-- Add SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 
 
-
-                                <!-- BOOTSTRAP only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-   
-
-
-                                 <!-- ZoomBar & slider-->
-    <script
-        src="{% static 'libs/L.Control.ZoomBar-master/src/L.Control.ZoomBar.js' %}"></script>
-    <link rel="stylesheet"
-        href="{% static 'libs/L.Control.ZoomBar-master/src/L.Control.ZoomBar.css' %}" />
-    <script
-        src="{% static 'libs/Leaflet.zoomslider-master/src/L.Control.Zoomslider.js' %}"></script>
-    <link rel="stylesheet"
-        href="{% static 'libs/Leaflet.zoomslider-master/src/L.Control.Zoomslider.css' %}" />
-
-                                <!-- MousePosition -->
-    <script
-        src="{% static 'libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js' %}"></script>
-    <link rel="stylesheet"
-        href="{% static 'libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.css ' %}" />
-
-                                <!-- line-measure -->
-    <link rel="stylesheet"
-        href="{% static 'libs/polyline-measure/line-measure.css' %}" />
-    <script src="{% static 'libs/polyline-measure/line-measure.js' %}"></script>
-    <link rel="stylesheet"
-        href="{% static 'libs/leaflet-measure-master/leaflet-measure.css' %}" />
-    <script
-        src="{% static 'libs/leaflet-measure-master/leaflet-measure.js' %}"></script>
-    <script src="{% static 'libs/feat.js' %}"></script>
-
+<!-- Add your other JavaScript code -->
+<style>
+    
+    /* Navbar text color */
+    .navbar-light .navbar-nav .nav-link {
+      color: black !important;
+      font-weight: bold;
+      margin-right: 50px;
+    }
  
-       
-                            <!-- legend -->
-
-    <link rel="stylesheet"
-        href="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.css' %}" />
-    <script src="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.js' %}"></script>
-
-                            <!-- html2pdfcdn -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
-        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
-
-    <script src="{% static 'libs/leaflet-image.js' %}"></script>
-   
-   
-
-
-                                 <!-- fontawsome -->
-    <link rel="stylesheet"
-        href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
-
-    
-        
-
-                        <!-- Leaflet Omnivore KML plugin -->
-<script src="https://unpkg.com/leaflet-omnivore/leaflet-omnivore.min.js"></script>
-
-
-     <script>
-        $(function() {
-            var availableTags = ['Pimpalgaon Tarf Khed,Khed', 'Rohakal,Khed', 'Kanersar,Khed', 'Chinchoshi,Khed',
-                'Sabalewadi,Khed', 'Sidhegavhan,Khed', 'Torne Bk,Khed', 'Hedruj,Khed', 'Davadi,Khed',
-                'Nimgaon,Khed', 'Kadus,Khed', 'Talawade,Khed', 'Kohinde Bk.,Khed', 'Bahirwadi,Khed',
-                'Pangari,Khed', 'Pait,Khed', 'Shelu,Khed', 'Koregaon Kh,Khed', 'Koregaon bk,Khed',
-                'Chandus,Khed', 'Retavadi,Khed', 'Kharpudi Bk,Khed', 'Pimpari Bk,Khed', 'Kharpudi Kh,Khed',
-                'Kalewadi,Khed', 'Padali,Khed', 'Koye,Khed', 'Gosasi,Khed', 'Vadgaon Ghenand,Khed',
-                'Manjarewadi,Khed', 'Kurkundi,Khed', 'Raundhalwadi,Khed', 'Kalus,Khed', 'Shive,Khed',
-                'Gargotiwadi,Khed', 'Kiwale,Khed', 'Jaidwadi,Khed', 'Khalchi Bhamburwadi,Khed',
-                'Arudewadi,Khed', 'Kohinkarwadi,Khed', 'Gulani,Khed', 'Pur,Khed', 'Jaulke Kh.,Khed',
-                'Waki BK,Khed', 'Ahire,Khed', 'Dhamane,Khed', 'Askhed Bk,Khed', 'Kaman,Khed', 'Chas,Khed',
-                'Papalwadi,Khed', 'Mirajewadi,Khed', 'Wakalwadi,Khed', 'Takalkarwadi,Khed', 'Donde,Khed',
-                'Wahagaon,Khed', 'Karanj Vihire,Khed', 'Koyali Tarf Chakan,Khed', 'Akharwadi,Khed',
-                'Jaulke Bk.,Khed', 'Vaphgaon,Khed', 'Chichbaiwadi,Khed', 'Gadakwadi,Khed', 'Chaudharwadi,Khed',
-                'Warude,Khed', 'Butewadi,Khed', 'Waki Tarf Wada,Khed', 'Gonvadi,Khed', 'Pimpari Kh.,Khed',
-                'Bahul,Khed', 'Chakan,Khed', 'Rajgurunagar,Khed', 'Shelgaon,Khed', 'Askhed Kh,Khed',
-                'Parale,Khed', 'Malkhed,Haveli', 'Bakori,Haveli', 'Gogalwadi,Haveli', 'Kondhanpur,Haveli',
-                'Mandavi Kh,Haveli', 'Mandavi Bk.,Haveli', 'Khadakwadi,Haveli', 'Aambi,Haveli',
-                'Alandi Mhatobachi,Haveli', 'Walati,Haveli', 'Manerwadi,Haveli', 'Tikekarwadi,Haveli',
-                'Khanapur,Haveli', 'Sashte,Haveli', 'Tarade,Haveli', 'Dongargaon,Haveli', 'Thoptewadi,Haveli',
-                'Gorhe Kh.,Haveli', 'Dehu,Haveli', 'Malinagar,Haveli', 'Vitthal Nagar,Haveli',
-                'Gorhe Bk.,Haveli', 'Bivari,Haveli', 'Sangarun,Haveli', 'Agalambe,Haveli', 'Arvi,Haveli',
-                'Pimpri Tarf Sandas,Haveli', 'Sangavi Tarf Sandas,Haveli', 'Jambhali,Haveli', 'Ashtapur,Haveli',
-                'Bhagatwadi,Haveli', 'Gaud Dara,Haveli', 'Wade Bolhai,Haveli', 'Shindwane,Haveli',
-                'Kalyan,Haveli', 'Ghera Sinhgad,Haveli', 'Kudaje,Haveli', 'Donaje,Haveli', 'Wanjalewadi,Haveli',
-                'Burkegaon,Haveli', 'Nhavi Sandas,Haveli', 'Shindewadi,Haveli', 'Gawadewadi,Haveli',
-                'Murkutenagar,Haveli', 'Khamgaon Tek,Haveli', 'Ramoshiwadi,Haveli', 'Mokarwadi,Haveli',
-                'Khadewadi,Haveli', 'Bahuli,Haveli', 'Tanaji Nagar,Haveli', 'Sonapur,Haveli', 'Vardare,Haveli',
-                'Sambharewadi,Haveli', 'Khamgaon Mawal,Haveli', 'Mogarwadi,Haveli', 'Mordarwadi,Haveli',
-                'Avasare,Haveli', 'Rahatvade,Haveli', 'Hingangaon,Haveli', 'Shiraswadi,Haveli', 'Katavi,Mawal',
-                'Kale,Mawal', 'Prabhachiwadi,Mawal', 'Yelse,Mawal', 'Ardav (Adavi),Mawal', 'Kadadhe,Mawal',
-                'Nane,Mawal', 'Tung,Mawal', 'Tikona,Mawal', 'Chavsar,Mawal', 'Boravli,Mawal', 'Inglun,Mawal',
-                'Khand,Mawal', 'Kolechafesar,Mawal', 'Kusur,Mawal', 'Morave,Mawal', 'Pimpriwadi,Mawal',
-                'Shivali,Mawal', 'Thoran,Mawal', 'Ukasan,Mawal', 'Vadeshwar,Mawal', 'Kusgaon P.m.,Mawal',
-                'Takave Bk.,Mawal', 'Shevati,Mawal', 'Pansoli,Mawal', 'Atvan,Mawal', 'Malegao Bk.,Mawal',
-                'Apati,Mawal', 'Bhajgaon,Mawal', 'Bhoyre,Mawal', 'Divad,Mawal', 'Govitri,Mawal', 'Jovan,Mawal',
-                'Kondiwade,Mawal', 'Pachane,Mawal', 'Pale,Mawal', 'Udhewadi,Mawal', 'Vadavali,Mawal',
-                'Pangloli,Mawal', 'Karandoli,Mawal', 'Dhaiwali,Mawal', 'Shilatane,Mawal', 'Takave Kh.,Mawal',
-                'Rajpuri,Mawal', 'Kurvande,Mawal', 'Lonawale,Mawal', 'Malavandi Thule,Mawal', 'Ambegaon,Mawal',
-                'Kunewadi,Mawal', 'Dahuli,Mawal', 'Mangarul,Mawal', 'Somwadi,Mawal', 'Kondivade N.m,Mawal',
-                'Dudhivare,Mawal', 'Vagheshwar,Mawal', 'Shilimb,Mawal', 'Sawale,Mawal', 'Pusane,Mawal',
-                'Malegao Kh,Mawal', 'Ajivali,Mawal', 'Valakh,Mawal', 'Sawantwadi,Mawal', 'Malewadi,Mawal',
-                'Mahagaon,Mawal', 'Lohagad,Mawal', 'Kambare N.m.,Mawal', 'Dhalewadi,Mawal', 'Budhavadi,Mawal',
-                'Gevhandhe,Mawal', 'Nagatali,Mawal', 'Rakaswadi,Mawal', 'Kusavali,Mawal', 'Wahangao,Mawal',
-                'Kiwale,Mawal', 'Shirdhe,Mawal', 'Jamboli,Mawal', 'Nandgaon,Mawal', 'Shindgaon,Mawal',
-                'Kambare Andar,Mawal', 'Kashal,Mawal', 'Khandashi,Mawal', 'Nesave,Mawal', 'Valavanti,Mawal',
-                'Dhangavhan,Mawal', 'Ovale,Mawal', 'Yelghol,Mawal', 'Velholi,Mawal', 'Karanjgaon,Mawal',
-                'Sangise,Mawal', 'Pale Nane Mawal,Mawal', 'Mormarwadi,Mawal', 'Mau,Mawal', 'Kacharewadi,Mawal',
-                'Vaund,Mawal', 'Brahmanwadi,Mawal', 'Done,Mawal', 'Kothurne,Mawal', 'Shire,Mawal',
-                'Belaj,Mawal', 'Jeware,Mawal', 'Vehergaon,Mawal', 'Budhle N.M.,Mawal', 'Vadivale,Mawal',
-                'Adhale bk,Mawal', 'Adhale kh.,Mawal', 'Shivane,Mawal', 'Phalne,Mawal', 'Ghonshet,Mawal',
-                'Sai,Mawal', 'Bhadawali,Mawal', 'Majgaon,Mawal', 'Pimpal Khunte,Mawal', 'Malawali P.m.,Mawal',
-                'Bedse,Mawal', 'Thugaon,Mawal', 'Varu,Mawal', 'Phagane,Mawal', 'Kadav,Mawal',
-                'Gevhande Khadak,Mawal', 'Keware,Mawal', 'Thakursai,Mawal', 'Brahmanoli,Mawal', 'Muthe,Mulshi',
-                'Padalgharwadi,Mulshi', 'Mugaon,Mulshi', 'Valane,Mulshi', 'Ugavali,Mulshi', 'Jawal,Mulshi',
-                'Ghutake,Mulshi', 'Ekole,Mulshi', 'Tailbaila,Mulshi', 'Bhambarde,Mulshi', 'Botarwadi,Mulshi',
-                'Chandivali,Mulshi', 'Andgaon,Mulshi', 'Dhamanohol,Mulshi', 'Koloshi,Mulshi', 'Sakhari,Mulshi',
-                'Kharavade,Mulshi', 'Pimploli,Mulshi', 'Masgaon,Mulshi', 'Wadavali,Mulshi', 'Admal,Mulshi',
-                'Bhembhatmal,Mulshi', 'Palase,Mulshi', 'Patharshet,Mulshi', 'Saiv Kh,Mulshi', 'Bhode,Mulshi',
-                'Mulshi Kh,Mulshi', 'Tata Talav,Mulshi', 'Karmoli,Mulshi', 'Shedani,Mulshi', 'Kolwan,Mulshi',
-                'Sathesai,Mulshi', 'Mugavde,Mulshi', 'Katavadi,Mulshi', 'Davje,Mulshi', 'Malegaon,Mulshi',
-                'Wanjale,Mulshi', 'Watunde,Mulshi', 'Vede,Mulshi', 'Mandede,Mulshi', 'Jatede,Mulshi',
-                'Kashing,Mulshi', 'Amaralewadi,Mulshi', 'Barape_Bk,Mulshi', 'Bhalgudi,Mulshi', 'Saltar,Mulshi',
-                'Shirvali,Mulshi', 'Nive,Mulshi', 'Andhale,Mulshi', 'Ambarwet,Mulshi', 'Vandre,Mulshi',
-                'Vadgaon,Mulshi', 'Pimpri,Mulshi', 'Rihe,Mulshi', 'Katarkhadak,Mulshi', 'Nandgaon,Mulshi',
-                'Padalghar,Mulshi', 'Mose Kh.,Mulshi', 'Dhadavali,Mulshi', 'Gadhale,Mulshi', 'Chinchwad,Mulshi',
-                'Kule,Mulshi', 'Hulavalewadi,Mulshi', 'Tamhini Bk,Mulshi', 'Warak,Mulshi', 'Vegre,Mulshi',
-                'Kolavade,Mulshi', 'Kondhur,Mulshi', 'Pethshahapur,Mulshi', 'Devghar,Mulshi', 'Ambavane,Mulshi',
-                'Kolavali,Mulshi', 'Pomgaon,Mulshi', 'Male,Mulshi', 'Kumbheri,Mulshi', 'Jamgaon,Mulshi',
-                'Share,Mulshi', 'Disali,Mulshi', 'Shileshwar,Mulshi', 'Bhadas Bk.,Mulshi', 'Gavadewadi,Mulshi',
-                'Dongrgaon,Mulshi', 'Hotale,Mulshi', 'Nanegaon,Mulshi', 'Asade,Mulshi', 'Chikhali Bk.,Mulshi',
-                'Belwade,Mulshi', 'Tav,Mulshi', 'Chale,Mulshi', 'Darawali (Dakhli),Mulshi', 'Morewadi,Mulshi',
-                'Bharekarwadi,Mulshi', 'Kasarsai,Mulshi', 'Visakhar,Mulshi', 'Walen,Mulshi', 'Hadasi,Mulshi',
-                'Kalamshet,Mulshi', 'Vitthalwadi,Mulshi', 'Andeshe,Mulshi', 'Khubawali,Mulshi',
-                'Temghar,Mulshi', 'Lavarde,Mulshi', 'Khechre,Mulshi', 'Marnewadi,Mulshi', 'Bhuini,Mulshi',
-                'Savargaon,Mulshi', 'Akole,Mulshi', 'Kondhavale,Mulshi', 'Paud,Mulshi', 'Dakhane,Mulshi',
-                'Sambhave,Mulshi', 'Khamboli,Mulshi', 'Kemasewadi,Mulshi', 'Adgaon,Mulshi',
-                'Chikhalgaon,Mulshi', 'Ravade,Mulshi', 'Nandivali,Mulshi', 'Dasave,Mulshi', 'Bhambavade,Bhor',
-                'Bhongavli,Bhor', 'Dhangavadi,Bhor', 'Gunand,Bhor', 'Kenjal,Bhor', 'Khadki,Bhor', 'Kikavi,Bhor',
-                'Morwadi,Bhor', 'Nhavi,Bhor', 'Nidhan,Bhor', 'Nigade,Bhor', 'Pande,Bhor', 'Panjalwadi,Bhor',
-                'Rajapur,Bhor', 'Sangavi Kh,Bhor', 'Sarole,Bhor', 'Savardare,Bhor', 'Taprewadi,Bhor',
-                'Umbare,Bhor', 'Vathar Kh,Bhor', 'Wagajwadi,Bhor', 'Degaon,Bhor', 'Didghar,Bhor',
-                'Jambhali,Bhor', 'Kambare,Bhor', 'Kanjale,Bhor', 'Karandi,Bhor', 'Ketkavane,Bhor', 'Khopi,Bhor',
-                'Kolavadi,Bhor', 'Kurungvadi,Bhor', 'Kusgaon,Bhor', 'Malegaon,Bhor', 'Parvadi,Bhor',
-                'Ranje,Bhor', 'Salavade,Bhor', 'Sangavi Bk,Bhor', 'Sonavadi,Bhor', 'Virwadi,Bhor',
-                'Tamhanwadi,Daund', 'Sahajpurwadi,Daund', 'Nandur,Daund', 'Dalimb,Daund', 'Takali,Daund',
-                'Vadgaon Bande,Daund', 'Koregaon Bhiwar,Daund', 'Telewadi,Daund', 'Panwali,Daund',
-                'Pilanwadi,Daund', 'Mirwadi,Daund', 'Dahitane,Daund', 'Devkarwadi,Daund', 'Boribhadak,Daund',
-                'Boriaindi,Daund', 'Boratewadi,Daund', 'Bharatgaon,Daund', 'Jawajebuwachiwadi,Daund',
-                'Kamatwadi,Daund', 'Kasurdi,Daund', 'Bhandgaon,Daund', 'Patethan,Daund', 'Tambewadi,Daund',
-                'Ladkatwadi,Daund', 'Khutbav,Daund', 'Pimpalgaon,Daund', 'Delvadi (Ekeriwadi),Daund',
-                'Undawadi,Daund', 'Nathachiwadi,Daund', 'Valki,Daund', 'Rahu,Daund', 'Khamgaon,Daund',
-                'Nangaon,Daund', 'Amoni Mal,Daund', 'Ganesh Road,Daund', 'Varwand,Daund', 'Khopodi,Daund',
-                'Handalwadi,Daund', 'Wakhari,Daund', 'Dapodi,Daund', 'Pargaon,Daund', 'Deshmukh Mala,Daund',
-                'Nimbalkar Wasti,Daund', 'Galandwadi,Daund', 'Kodit Kh.,Purandar', 'Pur,Purandar',
-                'Pokhar,Purandar', 'Warwadi,Purandar', 'Kumbhoshi,Purandar', 'Somurdi,Purandar',
-                'Gherapurandhar,Purandar', 'Supe  Kh.,Purandar', 'Misalwadi,Purandar', 'Thapewadi,Purandar',
-                'Bhivari,Purandar', 'Bhivadi,Purandar', 'Bahirwadi,Purandar', 'Bhopgaon,Purandar',
-                'Patharwadi,Purandar', 'Pimpale,Purandar', 'Panvadi,Purandar', 'Hivare,Purandar',
-                'Kodit Budruk,Purandar', 'Askarwadi,Purandar', 'Chambali,Purandar', 'Borhalewadi,Purandar',
-                'Garade,Purandar', 'Ambawane,Velhe', 'Chinchale Bk,Velhe', 'Karajwane,Velhe', 'Adavali,Velhe',
-                'Askawadi,Velhe', 'Ketkavane,Velhe', 'Kolwadi,Velhe', 'Lasirgaon,Velhe', 'Margasani,Velhe',
-                'Khambawadi,Velhe', 'Mangdari,Velhe', 'Mangaon,Velhe', 'Pole,Velhe', 'Kasedi,Velhe',
-                'Chikhali Kh,Velhe', 'Bhalvadi,Velhe', 'Thangaon,Velhe', 'Shirkoli,Velhe', 'Ghodshet,Velhe',
-                'Ambed,Velhe', 'Khamgaon,Velhe', 'Vinzar,Velhe', 'Wangani,Velhe', 'Varasgaon,Velhe',
-                'Ambegaon Kh,Velhe', 'Gholapghar,Velhe', 'Kambegi,Velhe', 'Ranjane,Velhe', 'Dapode,Velhe',
-                'Chinchale Kh,Velhe', 'Kuran Bk,Velhe', 'Vadghar,Velhe', 'Givashi,Velhe', 'Koshimghar,Velhe',
-                'Mose Bk,Velhe', 'Saiv Bk.,Velhe', 'Ranavdi,Velhe', 'Boravale,Velhe', 'Nigade Bk.,Velhe',
-                'Panshet,Velhe', 'Kondgaon,Velhe', 'Malavli,Velhe', 'Kathawadi,Velhe', 'Rule,Velhe',
-                'Kuran Kh,Velhe', 'Dhindli,Velhe', 'Ambegaon Bk,Velhe', 'Osade,Velhe', 'Nigade Mose,Velhe',
-                'Kandave,Velhe', 'Wanjalwadi,Velhe', 'Kurvathi,Velhe', 'Pimpale Jagtap,Shirur',
-                'Wajewadi,Shirur', 'Kasari,Shirur', 'Jategaon Kh.,Shirur', 'Takali Bhima,Shirur',
-                'Kondhapuri,Shirur', 'Khairewadi,Shirur', 'Rautwadi,Shirur', 'Karandi,Shirur', 'Amdabad,Shirur',
-                'Jategaon Bk.,Shirur', 'Kendur,Shirur', 'Shastabad,Shirur', 'Khandale,Shirur',
-                'Sone Sangavi,Shirur', 'Hivare,Shirur', 'Burunjwadi,Shirur', 'Darekarwadi,Shirur',
-                'Vitthalwadi,Shirur', 'Dingrajwadi,Shirur', 'Malthan,Shirur', 'Waghale,Shirur', 'Varude,Shirur',
-                'Shivtakrar Mahalungi,Shirur', 'Shingadwadi,Shirur', 'Ranjangaon Sandas,Shirur',
-                'Rakshewadi,Shirur', 'Pimpale Dumal,Shirur', 'Pimpari Dumala,Shirur', 'Nimgaon Bhogi,Shirur',
-                'Mukhai,Shirur', 'Motewadi,Shirur', 'Midgulwadi,Shirur', 'Lakhewadi,Shirur',
-                'Karanjawane,Shirur', 'Golegaon,Shirur', 'Dhanore,Shirur', 'Dhamari,Shirur', 'Dahiwadi,Shirur',
-                'Chincholi,Shirur', 'Bhambarde,Shirur', 'Arangaon,Shirur', 'Ambale,Shirur',
-                'Ganegaon Burunjwadi,Shirur', 'Kanhur mesai,Shirur', 'Pabal,Shirur', 'Andhalgaon,Shirur',
-                'Nimone,Shirur', 'Nhavara,Shirur', 'Kohakdewadi,Shirur', 'Uralgaon,Shirur',
-                'Alegaon Paga,Shirur', 'Nagargaon,Shirur', 'Babhulsar Kh.,Shirur', 'Chavhanwadi,Shirur',
-                'Parodi,Shirur', 'Nimgaon Mhalungi,Shirur', 'Karade,Shirur', 'Nighoje,Khed', 'Moi,Khed',
-                'Khalumbre,Khed', 'Mahalunge,Khed', 'Kanhewadi Tarf Chakan,Khed', 'Sangurdi,Khed',
-                'Shinde,Khed', 'Wasuli,Khed', 'Yevalewadi,Khed', 'Sawardari,Khed', 'Kuruli,Khed',
-                'Medankarwadi,Khed', 'Nanekarwadi,Khed', 'Sudumbare,Mawal', 'Chimbali,Khed', 'Indori,Mawal',
-                'Biradwadi,Khed', 'Bhamboli,Khed', 'Ambethan,Khed', 'Kharabwadi,Khed', 'Warale,Khed',
-                'Kadachiwadi,Khed', 'Sudhavadi,Mawal', 'Jambavade,Mawal', 'Bhare,Mulshi', 'Kasar Amboli,Mulshi',
-                'Mukhaiwadi,Mulshi', 'Uravade,Mulshi', 'Bhukum,Mulshi', 'Nande,Mulshi', 'Sus,Mulshi',
-                'Bavadhan Bk,Mulshi', 'Vadki,Haveli', 'Ghotavde,Mulshi', 'Talegaon Dabhade (R),Mawal',
-                'Urse,Mawal', 'Parandwadi,Mawal', 'Bhilarewadi,Haveli', 'Jambhulwadi,Haveli', 'Kolavadi,Haveli',
-                'Sasewadi,Bhor', 'Shindewadi,Bhor', 'Lavale,Mulshi', 'Man,Mulshi', 'Sanas Nagar,Haveli',
-                'Nandoshi,Haveli', 'Pirangut,Mulshi', 'Vadgaon Shinde,Haveli', 'Loni-Kalbhor,Haveli',
-                'Dive,Purandar', 'Ambegaon,Mulshi', 'Pawarwadi,Purandar', 'Kalewadi,Purandar',
-                'Sonori,Purandar', 'Bhugaon,Mulshi', 'Manjari Kh.,Haveli', 'Manjari Bk,Haveli',
-                'Kolavdi,Haveli', 'Shevalwadi,Haveli', 'Kadamvak Wasti,Haveli', 'Holkarwadi,Haveli',
-                'Autad Handewadi,Haveli', 'Vadachiwadi,Haveli', 'Pisoli,Haveli', 'Bebad Ohol,Mawal',
-                'Dhamne,Mawal', 'Godumbare,Mawal', 'Shirgaon,Mawal', 'Gahunje,Mawal', 'Salumbe,Mawal',
-                'Sangavade,Mawal', 'Jambe,Mulshi', 'Nere,Mulshi', 'Dattawadi,Mulshi', 'Hinjavadi,Mulshi',
-                'Marunji,Mulshi', 'Mahalunge,Mulshi', 'Materewadi,Mulshi', 'Bhoirwadi,Mulshi',
-                'Bhegdewadi,Mulshi', 'Chande,Mulshi', 'Mulkhed,Mulshi', 'Godambewadi,Mulshi',
-                'Bhowarapur,Haveli', 'Uruli Kanchan,Haveli', 'Peth,Haveli', 'Koregaon Mul,Haveli',
-                'Prayagdham,Haveli', 'Sortapwadi,Haveli', 'Kunjirwadi,Haveli', 'Theur,Haveli', 'Naygaon,Haveli',
-                'Mangewadi,Haveli', 'Nimbalkarwadi,Haveli', 'Kirkitwadi,Haveli', 'Khadakwasale,Haveli',
-                'Nanded ,Haveli', 'Kopare,Haveli', 'Kondhave Dhavade,Haveli', 'Mendhewadi,Mawal',
-                'Varale,Mawal', 'Malawadi,Mawal', 'Ambi,Mawal', 'Brahman Wadi,Mawal', 'Sate,Mawal',
-                'Mohitewadi,Mawal', 'Chikhalse,Mawal', 'Ahirvade,Mawal', 'Kusgaon Kh.,Mawal',
-                'Khadkale (CT),Mawal', 'Kamshet,Mawal', 'Paravadi,Mawal', 'Sadavli,Mawal', 'Ozarde,Mawal',
-                'Baur,Mawal', 'Brahmanwadi,Mawal', 'Karunj,Mawal', 'Adhe Kh.,Mawal', 'Somatane,Mawal',
-                'Jadhavwadi,Mawal', 'Akurdi,Mawal', 'Nanoli Tarf Chakan,Mawal', 'Sangavi,Mawal',
-                'Umbare Navalakh,Mawal', 'Badhalawadi,Mawal', 'Naygaon,Mawal', 'Nanoli N.m.,Mawal',
-                'Jambhul,Mawal', 'Kanhe,Mawal', 'Ambale,Mawal', 'Nigade,Mawal', 'Kalhat,Mawal',
-                'Pawalewadi,Mawal', 'Boraj,Mawal', 'Patan,Mawal', 'Kusgaon Bk. (CT),Mawal', 'Devale,Mawal',
-                'Aundhe kh.,Mawal', 'Dongargaon,Mawal', 'Aundholi,Mawal', 'Varsoli,Mawal', 'Karla,Mawal',
-                'Waksai,Mawal', 'Devghar,Mawal', 'Sadapur,Mawal', 'Kune N.m.,Mawal', 'Bhaje,Mawal',
-                'Malvali,Mawal', 'Mudhavare,Mawal', 'Taje,Mawal', 'Pathargaon,Mawal', 'Pimploli,Mawal',
-                'Santosh Nagar ,Khed', 'Rakshewadi,Khed', 'Waki Kh,Khed', 'Holewadi,Khed', 'Chandoli,Khed',
-                'Varachi Bhamburwadi,Khed', 'Sandbhorwadi,Khed', 'Pacharnewadi,Khed', 'Dhorewadi,Khed',
-                'Vadgaon Tarf Khed,Khed', 'Shiroli,Khed', 'Satkarsthal,Khed', 'Koregaon Bhima _CT,Shirur',
-                'Sanaswadi ,Shirur', 'Shikrapur,Shirur', 'Talegaon Dhamdhere,Shirur', 'Apti,Shirur',
-                'Vadu Bk.,Shirur', 'Shirur_Annapur_Saradwadi_Tardobachiwadi_Kardilwad,Shirur',
-                'Dhok Sangavi,Shirur', 'Karegaon,Shirur', 'Ranjangaon Ganpati,Shirur', 'Vanpuri,Purandar',
-                'Udachiwadi,Purandar', 'Singapur,Purandar', 'Zendewadi,Purandar', 'Jadhavwadi,Purandar',
-                'Kumbharvalan,Purandar', 'Ambodi,Purandar', 'Gurholi,Purandar', 'Bhose,Khed', 'Alandi,Khed',
-                'Dhanore,Khed', 'Rase,Khed', 'Solu,Khed', 'Pimpalgaon Tarf Chakan,Khed', 'Tulapur,Haveli',
-                'Nirgudi,Haveli', 'Markal,Khed', 'Charholi Kh.,Khed', 'Kelgaon,Khed', 'Shivapur,Haveli',
-                'Khed Shivapur,Haveli', 'Ramnagar,Haveli', 'Kasurdi,Bhor', 'Shivare,Bhor', 'Velu,Bhor',
-                'Hrishchandri,Bhor', 'Kapurhol,Bhor', 'Divale,Bhor', 'Kamthadi,Bhor', 'Kelavade,Bhor',
-                'Nasrapur,Bhor', 'Naygaon,Bhor', 'Varve Bk.,Bhor', 'Varve Kh.,Bhor', 'Ketkawale,Purandar',
-                'Chivewadi,Purandar', 'Devadi,Purandar', 'Awhalwadi,Haveli', 'Loni-kand,Haveli',
-                'Kesnand,Haveli', 'Taleranwadi,Haveli', 'Bhavadi,Haveli', 'Perane,Haveli', 'Phulgaon,Haveli',
-                'Wadhu Kh,Haveli', 'Wagholi,Haveli', 'Dhumalicha Mala,Daund', 'Kedgaon,Daund',
-                'Kedgaon Station,Daund', 'Dhaygudewadi,Daund', 'Boripardhi,Daund', 'Yawat Station,Daund',
-                'Yawat,Daund', 'Chandkhed,Mawal', 'Darumbare,Mawal', 'Vadgaon,Mawal', 'Golegaon,Khed',
-                'Narhe,Haveli'
-            ];
-            $(".search").autocomplete({
-                source: availableTags
-            });
-        });
-    </script>
-
-
+    /* Navbar hover color */
+    .navbar-light .navbar-nav .nav-link:hover {
+      color: #004aad !important;
+    }
+    .dropdown-item:hover{
+        color: #004aad !important;   
+    }
+    a{
+        text-decoration: none;
+    }
+  </style>
         </head>
-    <body>
+    <body style="overflow: hidden; color: #f8f9fa;">
 
+       
 
+        <div class="">
 
-        <div id="wrapper">
-
-            <aside id="sidebar-wrapper">
-                <div class="sidebar-brand">
-                    <h2 style="color:#dddddd">
-                        <img class="imglogo" src="{% static 'images/logo1.png' %}" alt="image not found" style="width:40px; height:40px; border-radius:180%; background-color:#dddddd; margin-top:-3%;">
-                        TCPLGeo</h2>
-                </div>
-                <ul class="sidebar-nav">
-                    <li class="active">
-                        <h3 class="profile-username  fw-bold text-capitalize fs-5 px-4 pt-4 " style="color:#dddddd;">
-                           {{ user.username }}
-                        </h3>
-    
-                        <p class="text-muted px-4 ">                    </p>
-    
-                    </li>
-                    <li>
-                        <!-- *************************prompt ************** -->
-      
-
-
-
-
-
-
-                    </li>
-    
-                    <li class="nav-item">
-                            <div>
-                                <p class="text-light">Enter coordinates</p>
-                            </div>
-                    </li>
-                </ul>
-            </aside>
-    
-            <div id="navbar-wrapper">
-                <nav class="navbar navbar-inverse">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-    
-                            <a href="#" class="navbar-brand fs-3" id="sidebar-toggle" onclick="toggleSidebar()">
-                                <i id="sidebar-open-icon" class="fas fa-angle-double-left" style=" padding :10px; border-radius:180%;  color: #343a40;"></i>
-                                <i id="sidebar-close-icon" class="fas fa-angle-double-right d-none" style=" color: #343a40;"></i>
-                            </a>
-
-
-                        </div>
-                    <div class=" text-light ms-auto  pe-2 "> 
-                        <button type="button" class="btn btn-outline-success fw-bold p-1 px-2 " id="kmlBtn"  style="border:0; font-size:15px ; border-radius:10px;" ><i class="fas fa-file-export"style=" width:20px; height:20px;"></i>   <span class="d-none d-sm-inline"> Export KML</span></button>
-                    </div>
+          
+             <div id="navbar-wrapper" >
+                <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+                    <div class="container-fluid pt-2">
+                        <a href="{% url 'index' %}">
+                      <h5 style="color: #004aad; padding-left: 30px;"> 
+                        <img  class="imglogo" src="{% static 'images/logo1.png' %}" alt="image not found" style="width: 40px; height: 40px; border-radius: 180%; background-color: #dddddd; margin-top: -3%;">
+                        TCPLGeo
+                      </h5>
+                    </a>
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                  
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: 15px;">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         
-                            <a href="{% url 'logout' %}" type="button" class=" btn btn-outline-danger fw-bold  p-1 px-2" style="border:0; font-size:15px ; border-radius:10px;" name="Logout" type="submit"><i class="fas fa-sign-out-alt"></i>
-<!--                                <img src=images/logout2.jpg alt="image not found" style=" width:20px; height:20px;">-->
-                                <span class="d-none d-sm-inline"> logout</span>
-                            </a>
-                        
+                  <!--
+                            <li class="nav-item dropdown position-static" style="font-size: 15px;">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Select option
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="font-size: 14px; font-weight: bold;">
+                                  <li>
+                                    <a type="button" class="dropdown-item" href="{% url 'main' %}">Search Village, Gut_Number, Taluka</a>
+                                  </li>
+                                  <li>
+                                    <a type="button" class="dropdown-item" href="{% url 'coordinates' %}">Search Coordinates</a>
+                                  </li>
+                                  <li>
+                                    <hr class="dropdown-divider">
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="#">
+                                      <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <input type="file" name="file">
+                                        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-file-import"></i></button>
+                                      </form>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </li>
+                  -->
+                  
+                          <li class="nav-item me-5">
+                            <button onclick="takeScreenshot()" id="save-btn" class="text-light border-0 " style="background:#004aad;    "><i class="fas fa-download"> Export map</i></button>
+                          </li>
+
+                            <li class="nav-item dropdown me-5 pe-5" style="font-size: 15px;">
+                            <h3 class="nav-link profile-username fw-bold text-capitalize" style="font-size: 15px; color: #004aad;" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              {{ user.username }}
+                            </h3>
+                  
+                            <ul class="dropdown-menu me-5" aria-labelledby="navbarDropdown" style="font-size: 13.7px;">
+                              <li>
+                                <label for="" class="p-2">User-Email :</label>
+                                <p class=" px-2" style="color: #004aad;">{{ user.email }}</p>
+                              </li>
+                              <li>
+                              
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                              <li>
+                                <button id="createBookmarkBtn" class="dropdown-item" style="font-size:12px; font-weight: bold; color:#004aad;" type="button" id="childDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                  Create Bookmark <i class="fal fa-plus-circle"></i>
+                              </button> 
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                              <li>
+                                <div class="text-danger">
+                                  <a href="{% url 'logout' %}" class="text-danger fw-bold p-1 px-2" style="border: 0; font-size: 15px; border-radius: 10px;" name="Logout" type="submit">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span class="d-none d-sm-inline">logout</span>
+                                  </a>
+                                </div>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                </nav>
-            </div>
+                  </nav>
+                  
     
             <section id="content-wrapper">
                 <div id="map"></div>
     
-                <div id="main">
-                    <div class="main_search">
-                        <input type="text" placeholder="Search.." name="search2" class="search">
-    
-                        <button class="bg-light" id="btnData2" type="button" onclick="SearchMe()"><i class="far fa-search"></i></button>
-    
-                        <button class="btn-success" id="btnData1" type="button" onclick="ClearMe()">Clear</button>
-    
-    
-                        <button onclick="takeScreenshot()" id="save-btn" class="text-light border-0 " style="background:#004aad;    "><i class="fas fa-download"></i></button>
-    
-                    </div>
+                <div id="main" class="ms-5">
+                         
+                            <div id="box"  class="ms-5 mt-4">
+                              <span id="button" class="bg-secondary">Coordinates</span>
+                              <form action="" id="form">
+                                  <div id="filter-tag" style="text-align: center; ">
+                                    <h5 style="font-size: 15px; color: #004aad; margin: 10px;">Enter Coordinates</h5>
+                                      <div class="d-flex ps-2">
+                                        <input type="text" style="width:100px; height: 15px; border-radius: 8px; ">
+                                        <input type="text"  style="width: 100px;  height: 15px; border-radius: 8px;">
+                                      </div>
+                                      <div class="d-flex ps-2">
+                                        <input type="text" style="width:100px; height: 15px; border-radius: 8px; ">
+                                        <input type="text"  style="width: 100px;  height: 15px; border-radius: 8px;">
+                                      </div>
+                                      <div class="d-flex ps-2">
+                                        <input type="text" style="width:100px; height: 15px; border-radius: 8px; ">
+                                        <input type="text"  style="width: 100px;  height: 15px; border-radius: 8px;">
+                                      </div>
+                                      <div class="d-flex ps-2">
+                                        <input type="text" style="width:100px; height: 15px; border-radius: 8px; ">
+                                        <input type="text"  style="width: 100px;  height: 15px; border-radius: 8px;">
+                                      </div>
+                                      <button class="w-100 px-5 my-2 py-2 border-0 bg-success text-light" style="border-radius: 5px;"  >Show</button>
+                                  </div>
+                              </form>
+                          </div>
+                
+                </div>
                 
     
                 </div>
@@ -373,7 +197,62 @@
     
         </div>
 
+        <script>
+        
+            var saveBookmarkUrl = "{% url 'save_bookmark' %}";
+          </script>
+          <script>
+            // When the `Create Bookmark` button is clicked, open the form
+            function createBookmark() {
+              // Get the form element
+              const form = document.getElementById("createBookmarkForm");
+            
+              // Show the form
+              form.style.display = "block";
+            }
+            </script>
 
-        <script src="{% static 'js/map.js' %}"></script>
+                    <!--html2canvas-->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+                    <!-- jquery -->
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+                    <!--leaflet-->
+                    <script src="{% static 'libs/leaflet/leaflet.js' %}"></script>
+                      <!--Bootstrap-->
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+                      <!--Zoombar-->
+                    <script  src="{% static 'libs/L.Control.ZoomBar-master/src/L.Control.ZoomBar.js' %}"></script>
+                    <script src="{% static 'libs/Leaflet.zoomslider-master/src/L.Control.Zoomslider.js' %}"></script>
+                      <!--Mouse-position-->        
+                    <script src="{% static 'libs/Leaflet.MousePosition-master/src/L.Control.MousePosition.js' %}"></script>
+                      <!--line measurement-->        
+                    <script src="{% static 'libs/polyline-measure/line-measure.js' %}"></script>
+                      <!--meausrent-->        
+                    <script src="{% static 'libs/leaflet-measure-master/leaflet-measure.js' %}"></script>
+                    <script src="{% static 'libs/feat.js' %}"></script>
+                      <!--draw-control-->        
+                    <script src="{% static 'libs/leaflet-draw-control/leaflet-draw-control.js' %}"></script>
+                      <!--legend-->        
+                    <script src="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.js' %}"></script>
+                      <!--html2pdf--> 
+                      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+       
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+                        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+                        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                      <!--leaflet-image-->        
+                    <script src="{% static 'libs/leaflet-image.js' %}"></script>
+                      <!--Leaflet Omnivore KML plugin -->       
+                    <script src="https://unpkg.com/leaflet-omnivore/leaflet-omnivore.min.js"></script>
+                      <!--sweetalert-->        
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+                
+                
+                  
+          <script src="{% static 'js/map.js' %}"></script>
+
+                
+      
     </body>
 </html>

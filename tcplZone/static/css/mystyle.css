@@ -8,13 +8,13 @@
 
 body {
   
-    background-color:#dddddd
+    background-color:#f8f9fa;
   }
-  
+ 
   .btn {
     padding: 2px ;
-    border: 2px solid #fff;
-    color: #eaf0fb;
+    /* border: 2px solid #fff; */
+    /* color: #eaf0fb; */
   }
   .btn:hover{
     background-color: #bbb;
@@ -30,10 +30,10 @@ body {
   #map {
     position: absolute;
     margin-left: 0;
-    /* top:20px; */
+    top:-20px;
     left: 0%;
     width: 100%;
-    height: 96%;
+    height:94vh;
     border-style: solid;
     border-color: black;
     border-width: thin;
@@ -153,6 +153,7 @@ body {
   }
   
   #content-wrapper {
+    
     width: 100%;
     height: 94vh;
     position: absolute;
@@ -369,16 +370,21 @@ body {
   #button {
     /* width: 50px; */
     height: 20px;
-    background: #006699;
+    /* background: #6c757d; */
     font-weight: bold;
     border-radius: 4px;
     color: #fff;
     padding: 3px 10px;
-    border: 1px solid #006699;
+    border: 1px solid #6c757d;
     margin-top: 10px;
     margin-bottom: 15px;
     cursor: pointer;
   }
+
+#button:hover{
+  background: #6c757d;
+}
+
   #loadquery{
     
     font-weight: bold;
@@ -411,7 +417,7 @@ body {
   }
   #filter-tag p{
     background-color: aliceblue;
-    padding: 2%;
+    padding: 3%;
     text-align: center;
     text-size-adjust: auto;
     font-size: 15px;
@@ -660,7 +666,7 @@ body {
         padding: 5px;
         font-weight: bold;
         border-radius: 4px;
-        background-color: #006699;
+        background-color: #004aad;
      }
   
   

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404 
 from .models import BookMarks
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 import requests
 
 @login_required(login_url='login')
@@ -59,7 +60,7 @@ def loginPage(request):
         user=authenticate(request,username=username,password=pass1)
         if user is not None:
             login(request,user)
-            return redirect('selection')
+            return redirect('index')
         else:
             # Handle invalid login credentials
             return render(request, 'TCPLapp/login.html', {'error': 'Invalid login credentials'})
@@ -81,9 +82,10 @@ def LogoutPage(request):
 
 #selection ______________________________________________________________________
 
-def selection(request):
-     return render(request,"TCPLapp/selection.html")
-   
+# def selection(request):
+#      return render(request,"TCPLapp/selection.html")
+ 
+ 
    
 #coordinates
 
@@ -96,6 +98,10 @@ def coordinates(request):
 def kml(request):
     return render(request,"TCPLapp/kml.html") 
 
+# demo main
+@login_required(login_url='login')
+def index(request):
+    return render(request,"TCPLapp/index.html")
 
 def india_data(request):
     data = India.objects.all()
@@ -105,10 +111,7 @@ def india_data(request):
     return render(request, 'TCPLapp/india.html', context)
 
 
-# def create_bookmark(request):
-#     print('hellooooooo')
-#     return render(request, 'create_bookmark.html')
-# @login_required(login_url='login')
+
 def save_bookmark(request):
     print("first")
     if request.method == 'POST':
@@ -124,11 +127,19 @@ def save_bookmark(request):
         print(name, "Bookmark saved successfully")
         return redirect('main')
 
-# @csrf_exempt
-# def delete_location(request):
-#     if request.method == 'POST':
-#         location_id = request.POST.get('location_id')
-#         bookmark = get_object_or_404(tcplbook, pk=location_id)
-#         bookmark.delete()
-#         return redirect('main')
-#     return redirect('main')
+
+
+def save_screenshot(request):
+    if request.method == "POST":
+        image_data = request.POST.get("image")
+
+        # Save the image data as a file
+        import base64
+
+        image_data = base64.b64decode(image_data.split(",")[1])
+
+        with open("screenshot.png", "wb") as f:
+            f.write(image_data)
+
+        # Return a JSON response indicating success
+        return JsonResponse({"message": "Screenshot saved successfully."})

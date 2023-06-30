@@ -5,14 +5,16 @@ from TCPLapp import views
 
 
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
     path('main/', views.main,name='main'),
     path('registration/', views.registration,name='registration'),
     path('logout/',views.LogoutPage,name='logout'),
-    path('selection/',views.selection,name='selection'),
+    # path('selection/',views.selection,name='selection'),
     path('coordinates/',views.coordinates,name='coordinates'),
+    path('index/', views.index,name='index'),
     path('kml/',views.kml,name='kml'),
     
     
@@ -23,5 +25,5 @@ urlpatterns = [
     # path('delete-location/', views.delete_location, name='delete_location'),
 
     path('india/', views.india_data, name='india_data'),
-    
+    path("save-screenshot/",views.save_screenshot, name="save_screenshot"),
 ]

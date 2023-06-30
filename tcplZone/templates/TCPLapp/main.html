@@ -32,7 +32,8 @@
     <!-- legend -->
     <link rel="stylesheet" href="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.css' %}" />
     <!-- html2pdfcdn -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+
     <!-- fontawsome -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <!-- Add SweetAlert CSS -->
@@ -40,121 +41,187 @@
 
 
 <!-- Add your other JavaScript code -->
-
-  
-
-        </head>
-    <body>
-
-
-
-        <div id="wrapper">
-
-            <aside id="sidebar-wrapper">
-                <div class="sidebar-brand">
-                    <h2 style="color:#dddddd">
-                        <img class="imglogo" src="{% static 'images/logo1.png' %}" alt="image not found" style="width:40px; height:40px; border-radius:180%; background-color:#dddddd; margin-top:-3%;">
-                        TCPLGeo</h2>
-                </div>
-                <ul class="sidebar-nav">
-                    <li class="active">
-                        <h3 class="profile-username  fw-bold text-capitalize fs-5 px-4 pt-4 " style="color:#dddddd;">
-                           {{ user.username }}
-                        </h3>
+<style>
     
-                        <p class="text-muted px-4 ">                    </p>
-    
-                    </li>
-                    <li>
-                        <!-- *************************prompt ************** -->
- <!-- Display bookmarks -->
- <div class="dropdown">
-    <button class="btn btn-outline-secondary dropdown-toggle text-light ms-1" type="button" id="locationDropdown"
-        data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fad fa-bookmark"></i> Bookmarks
-    </button>
-    <ul class="dropdown-menu ms-1 px-2 bg-transparent" aria-labelledby="locationDropdown">
-        <li>
-            <div class="dropdown-divider"></div>
-            <div class="dropdown">
-             <button id="createBookmarkBtn" class="dropdown-item" style="font-size:10px; color: #dddddd;" type="button" id="childDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                Create Bookmark <i class="fal fa-plus-circle"></i>
-            </button> 
-            <form id="createBookmarkForm" style="display: none;" method="POST" action="{% url 'save_bookmark' %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="text" name="name" placeholder="Bookmark Name" required>
-                <input type="hidden" name="latitude" id="latitudeInput">
-                <input type="hidden" name="longitude" id="longitudeInput">
-                <button type="submit">Save Bookmark</button>
-              </form>
-
-            <div class="dropdown-menu" aria-labelledby="childDropdown">
-                <script>
-                // When the `Create Bookmark` button is clicked, open the form
-                function createBookmark() {
-                  // Get the form element
-                  const form = document.getElementById("createBookmarkForm");
-
-                  // Show the form
-                  form.style.display = "block";
-                }
-                </script>
-                <!-- Create Bookmark Form -->
-            </div>
-            </div>
-               
-
-        </li>
-
-    </ul>
-</div>
-                    </li>
-
-
+    /* Navbar text color */
+    .navbar-light .navbar-nav .nav-link {
+      color: black !important;
+      font-weight: bold;
+      margin-right: 50px;
+    }
  
-                </ul>
-            </aside>
-    
-            <div id="navbar-wrapper">
-                <nav class="navbar navbar-inverse">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-    
-                            <a href="#" class="navbar-brand fs-3" id="sidebar-toggle" onclick="toggleSidebar()">
-                                <i id="sidebar-open-icon" class="fas fa-angle-double-left" style=" padding :10px; border-radius:180%;  color: #343a40;"></i>
-                                <i id="sidebar-close-icon" class="fas fa-angle-double-right d-none" style=" color: #343a40;"></i>
-                            </a>
+    /* Navbar hover color */
+    .navbar-light .navbar-nav .nav-link:hover {
+      color: #004aad !important;
+    }
+    .dropdown-item:hover{
+        color: #004aad !important;   
+    }
+    a{
+        text-decoration: none;
+    }
+  </style>
+        </head>
+    <body style="overflow: hidden; color: #f8f9fa;">
 
+       
 
-                        </div>
-                    <div class=" text-light ms-auto  pe-2 "> 
-                        <button type="button" class="btn btn-outline-success fw-bold p-1 px-2 " id="kmlBtn"  style="border:0; font-size:15px ; border-radius:10px;" ><i class="fas fa-file-export"style=" width:20px; height:20px;"></i>   <span class="d-none d-sm-inline"> Export KML</span></button>
-                    </div>
+        <div class="">
+
+          
+             <div id="navbar-wrapper" >
+                <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+                    <div class="container-fluid pt-2">
+                      <a href="{% url 'index' %}">
+                        <h5 style="color: #004aad; padding-left: 30px;"> 
+                          <img  class="imglogo" src="{% static 'images/logo1.png' %}" alt="image not found" style="width: 40px; height: 40px; border-radius: 180%; background-color: #dddddd; margin-top: -3%;">
+                          TCPLGeo
+                        </h5>
+                      </a>
+                  
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                  
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: 15px;">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         
-                            <a href="{% url 'logout' %}" type="button" class=" btn btn-outline-danger fw-bold  p-1 px-2" style="border:0; font-size:15px ; border-radius:10px;" name="Logout" type="submit"><i class="fas fa-sign-out-alt"></i>
-<!--                                <img src=images/logout2.jpg alt="image not found" style=" width:20px; height:20px;">-->
-                                <span class="d-none d-sm-inline"> logout</span>
-                            </a>
-                        
+                  <!--
+                            <li class="nav-item dropdown position-static" style="font-size: 15px;">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Select option
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="font-size: 14px; font-weight: bold;">
+                                  <li>
+                                    <a type="button" class="dropdown-item" href="{% url 'main' %}">Search Village, Gut_Number, Taluka</a>
+                                  </li>
+                                  <li>
+                                    <a type="button" class="dropdown-item" href="{% url 'coordinates' %}">Search Coordinates</a>
+                                  </li>
+                                  <li>
+                                    <hr class="dropdown-divider">
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="#">
+                                      <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <input type="file" name="file">
+                                        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-file-import"></i></button>
+                                      </form>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </li>
+                  -->
+                          <li class="nav-item me-5">
+                            <button onclick="takeScreenshot()" id="save-btn" class="text-light border-0 " style="background:#004aad;    "><i class="fas fa-download"> Export map</i></button>
+                          </li>
+
+                            <li class="nav-item dropdown me-5 pe-5" style="font-size: 15px;">
+                            <h3 class="nav-link profile-username fw-bold text-capitalize" style="font-size: 15px; color: #004aad;" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              {{ user.username }}
+                            </h3>
+                  
+                            <ul class="dropdown-menu me-5" aria-labelledby="navbarDropdown" style="font-size: 13.7px;">
+                              <li>
+                                <label for="" class="p-2">User-Email :</label>
+                                <p class=" px-2" style="color: #004aad;">{{ user.email }}</p>
+                              </li>
+                              <li>
+                              
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                              <li>
+                                <button id="createBookmarkBtn" class="dropdown-item" style="font-size:12px; font-weight: bold; color:#004aad;" type="button" id="childDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                  Create Bookmark <i class="fal fa-plus-circle"></i>
+                              </button> 
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                              <li>
+                                <div class="text-danger">
+                                  <a href="{% url 'logout' %}" class="text-danger fw-bold p-1 px-2" style="border: 0; font-size: 15px; border-radius: 10px;" name="Logout" type="submit">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span class="d-none d-sm-inline">logout</span>
+                                  </a>
+                                </div>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                </nav>
-            </div>
+                  </nav>
+                  
     
             <section id="content-wrapper">
                 <div id="map"></div>
     
-                <div id="main">
-                    <div class="main_search">
-                        <input type="text" placeholder="Search.." name="search2" class="search">
-    
-                        <button class="bg-light" id="btnData2" type="button" onclick="SearchMe()"><i class="far fa-search"></i></button>
-    
-                        <button class="btn-success" id="btnData1" type="button" onclick="ClearMe()">Clear</button>
-    
-    
-                        <button onclick="takeScreenshot()" id="save-btn" class="text-light border-0 " style="background:#004aad;    "><i class="fas fa-download"></i></button>
-    
-                    </div>
+                <div id="main" class="ms-5">
+                         
+                            <div id="box"  class="ms-5 mt-4">
+                              <span id="button" class="bg-secondary">Make Query</span>
+                              <form action="" id="form">
+                                  <div id="filter-tag">
+                                      <table>
+                                          <tr>
+                                              <td>
+                                                  <label for="layer" style="font-size: 12px; padding: 10px;  font-weight: bold;">Select Layer</label>
+                                              </td>
+                                              <td>
+                                                  <select class="form-control" id="layer" name="layer" style="font-size: 10px;">
+                                                      <option value="" >Select Layer</option>
+                                                  </select>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td>
+                                                  <label for="attributes" style="font-size: 12px; padding: 10px; font-weight: bold;">Select Column</label>
+                                              </td>
+                                              <td>
+                                                  <select class="form-control" id="attributes" name="attributes" style="font-size: 10px;">
+                                                      <option value="">Select Attributes</option>
+                                                  </select>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td>
+                                                  <label for="operator" style="font-size: 12px; padding: 10px; font-weight: bold;">Select_Operator</label>
+                                              </td>
+                                              <td>
+                                                  <select class="form-control" id="operator" name="operator" style="font-size: 10px;">
+                                                      <option value="">Select operator</option>
+                                                  </select>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td>
+                                                  <label for="value" style="font-size: 12px; padding: 10px; font-weight: bold;">Enter Value</label>
+                                              </td>
+                                              <td>
+                                                  <select class="form-control" id="selectvalue" name="selectvalue" style="font-size: 10px;" >
+                                                      <option value="">select value</option>
+                                                  </select>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                                  <button class="btn btn-success" onclick="query()">Load Query</button>
+                                          </tr>
+                                          <tr>
+                                              <!-- <p>selected query</p> -->
+                                              <p id="textval" style="font-size: 10px;">
+              
+                                              </p>
+                                          </tr>
+                                      </table>
+                                  </div>
+                              </form>
+                          </div>
+                
+                </div>
                 
     
                 </div>
@@ -162,6 +229,7 @@
     
     
         </div>
+
         <script>
         
             var saveBookmarkUrl = "{% url 'save_bookmark' %}";
@@ -200,7 +268,9 @@
                     <script src="{% static 'libs/leaflet-draw-control/leaflet-draw-control.js' %}"></script>
                       <!--legend-->        
                     <script src="{% static 'libs/leaflet-wms-legend/leaflet.wmslegend.js' %}"></script>
-                      <!--html2pdf-->        
+                      <!--html2pdf--> 
+                      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+       
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
                         integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
                         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
