@@ -42,25 +42,70 @@
 
 <!-- Add your other JavaScript code -->
 <style>
+  /* Navbar background color */
+  .navbar-light {
+    /*background-color: #004aad !important;*/
+  }
+
+  /* Navbar text color */
+  .navbar-light .navbar-nav .nav-link {
+    color: black !important;
+    font-weight: bold;
+    margin-right: 50px;
+  }
+
+  /* Navbar hover color */
+  .navbar-light .navbar-nav .nav-link:hover {
+    color: #004aad !important;
+  }
+  .dropdown-item:hover{
+      color: #004aad !important;   
+  }
+  a{
+      text-decoration: none;
+  }
+  table {
+    margin-top: 5px;
+    margin-left: 10px;
+    width: 100%;
+  }
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  .delete-button button {
+    padding: 5px 10px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+
+  .my-swal-container
+  {
     
-    /* Navbar text color */
-    .navbar-light .navbar-nav .nav-link {
-      color: black !important;
-      font-weight: bold;
-      margin-right: 50px;
-    }
- 
-    /* Navbar hover color */
-    .navbar-light .navbar-nav .nav-link:hover {
-      color: #004aad !important;
-    }
-    .dropdown-item:hover{
-        color: #004aad !important;   
-    }
-    a{
-        text-decoration: none;
-    }
-  </style>
+    align-items: center;
+    padding: 5px;
+    font-size: 10px;
+  }
+  .my-swal-input{
+   
+    width: 85%;
+    color:black;
+  }
+  .my_swal_title{
+    font-size: 20px;
+  }
+  .my-swal-button{
+    padding: 10px;
+  }
+  .my_icon{
+    font-size: 10px;
+  }
+  .my_swal_text{
+    font-size: 8px;
+  }
+</style>
         </head>
     <body style="overflow: hidden; color: #f8f9fa;">
 
@@ -133,10 +178,24 @@
                               <li>
                                 <hr class="dropdown-divider">
                               </li>
+                               <!--Bookmark code -->
                               <li>
-                                <button id="createBookmarkBtn" class="dropdown-item" style="font-size:12px; font-weight: bold; color:#004aad;" type="button" id="childDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                                  Create Bookmark <i class="fal fa-plus-circle"></i>
-                              </button> 
+                                  <button id="saveBtn" class="dropdown-item" style="font-size:12px; font-weight: bold; color:#004aad;" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Create Bookmark <i class="fal fa-plus-circle"></i>
+                                  </button>
+                                   <!-- Show bookmark list--> 
+                                   <table id="locationTable" style="overflow-y: auto; height: 100px;">
+                                      <thead>
+                                        <tr>
+                                          <th>Name</th>
+                                                               
+                                          <th></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                       <!-- Table rows will be dynamically added here -->
+                                      </tbody>
+                                    </table>
                               </li>
                               <li>
                                 <hr class="dropdown-divider">
@@ -169,7 +228,7 @@
                                       <table>
                                           <tr>
                                               <td>
-                                                  <label for="layer" style="font-size: 12px; padding: 10px;  font-weight: bold;">Select Layer</label>
+                                                  <label for="layer" style="font-size: 12px; padding: 2px;  font-weight: bold;">Select Layer</label>
                                               </td>
                                               <td>
                                                   <select class="form-control" id="layer" name="layer" style="font-size: 10px;">
@@ -179,7 +238,7 @@
                                           </tr>
                                           <tr>
                                               <td>
-                                                  <label for="attributes" style="font-size: 12px; padding: 10px; font-weight: bold;">Select Column</label>
+                                                  <label for="attributes" style="font-size: 12px; padding: 2px; font-weight: bold;">Select Column</label>
                                               </td>
                                               <td>
                                                   <select class="form-control" id="attributes" name="attributes" style="font-size: 10px;">
@@ -189,7 +248,7 @@
                                           </tr>
                                           <tr>
                                               <td>
-                                                  <label for="operator" style="font-size: 12px; padding: 10px; font-weight: bold;">Select_Operator</label>
+                                                  <label for="operator" style="font-size: 12px; padding: 2px; font-weight: bold;">Select_Operator</label>
                                               </td>
                                               <td>
                                                   <select class="form-control" id="operator" name="operator" style="font-size: 10px;">
@@ -199,7 +258,7 @@
                                           </tr>
                                           <tr>
                                               <td>
-                                                  <label for="value" style="font-size: 12px; padding: 10px; font-weight: bold;">Enter Value</label>
+                                                  <label for="value" style="font-size: 12px; padding: 2px; font-weight: bold;">Enter Value</label>
                                               </td>
                                               <td>
                                                   <select class="form-control" id="selectvalue" name="selectvalue" style="font-size: 10px;" >
@@ -208,13 +267,15 @@
                                               </td>
                                           </tr>
                                           <tr>
-                                                  <button class="btn btn-success" onclick="query()">Load Query</button>
+                                       
+                                                  <button class="btn btn-success" onclick="event.preventDefault();  loadMap()" style="font-size: 13px;">Load Query</button>
+                                        
                                           </tr>
                                           <tr>
+                                            
                                               <!-- <p>selected query</p> -->
-                                              <p id="textval" style="font-size: 10px;">
-              
-                                              </p>
+                                              <p id="textval" style="font-size: 10px; color: black;"> </p>
+                                           
                                           </tr>
                                       </table>
                                   </div>
@@ -230,20 +291,6 @@
     
         </div>
 
-        <script>
-        
-            var saveBookmarkUrl = "{% url 'save_bookmark' %}";
-          </script>
-          <script>
-            // When the `Create Bookmark` button is clicked, open the form
-            function createBookmark() {
-              // Get the form element
-              const form = document.getElementById("createBookmarkForm");
-            
-              // Show the form
-              form.style.display = "block";
-            }
-            </script>
 
                     <!--html2canvas-->
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>

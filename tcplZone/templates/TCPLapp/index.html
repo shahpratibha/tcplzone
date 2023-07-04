@@ -38,7 +38,192 @@
     <!-- Add SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 
-
+    <script>
+      $(function() {
+          var availableTags = ['Pimpalgaon Tarf Khed,Khed', 'Rohakal,Khed', 'Kanersar,Khed', 'Chinchoshi,Khed',
+              'Sabalewadi,Khed', 'Sidhegavhan,Khed', 'Torne Bk,Khed', 'Hedruj,Khed', 'Davadi,Khed',
+              'Nimgaon,Khed', 'Kadus,Khed', 'Talawade,Khed', 'Kohinde Bk.,Khed', 'Bahirwadi,Khed',
+              'Pangari,Khed', 'Pait,Khed', 'Shelu,Khed', 'Koregaon Kh,Khed', 'Koregaon bk,Khed',
+              'Chandus,Khed', 'Retavadi,Khed', 'Kharpudi Bk,Khed', 'Pimpari Bk,Khed', 'Kharpudi Kh,Khed',
+              'Kalewadi,Khed', 'Padali,Khed', 'Koye,Khed', 'Gosasi,Khed', 'Vadgaon Ghenand,Khed',
+              'Manjarewadi,Khed', 'Kurkundi,Khed', 'Raundhalwadi,Khed', 'Kalus,Khed', 'Shive,Khed',
+              'Gargotiwadi,Khed', 'Kiwale,Khed', 'Jaidwadi,Khed', 'Khalchi Bhamburwadi,Khed',
+              'Arudewadi,Khed', 'Kohinkarwadi,Khed', 'Gulani,Khed', 'Pur,Khed', 'Jaulke Kh.,Khed',
+              'Waki BK,Khed', 'Ahire,Khed', 'Dhamane,Khed', 'Askhed Bk,Khed', 'Kaman,Khed', 'Chas,Khed',
+              'Papalwadi,Khed', 'Mirajewadi,Khed', 'Wakalwadi,Khed', 'Takalkarwadi,Khed', 'Donde,Khed',
+              'Wahagaon,Khed', 'Karanj Vihire,Khed', 'Koyali Tarf Chakan,Khed', 'Akharwadi,Khed',
+              'Jaulke Bk.,Khed', 'Vaphgaon,Khed', 'Chichbaiwadi,Khed', 'Gadakwadi,Khed', 'Chaudharwadi,Khed',
+              'Warude,Khed', 'Butewadi,Khed', 'Waki Tarf Wada,Khed', 'Gonvadi,Khed', 'Pimpari Kh.,Khed',
+              'Bahul,Khed', 'Chakan,Khed', 'Rajgurunagar,Khed', 'Shelgaon,Khed', 'Askhed Kh,Khed',
+              'Parale,Khed', 'Malkhed,Haveli', 'Bakori,Haveli', 'Gogalwadi,Haveli', 'Kondhanpur,Haveli',
+              'Mandavi Kh,Haveli', 'Mandavi Bk.,Haveli', 'Khadakwadi,Haveli', 'Aambi,Haveli',
+              'Alandi Mhatobachi,Haveli', 'Walati,Haveli', 'Manerwadi,Haveli', 'Tikekarwadi,Haveli',
+              'Khanapur,Haveli', 'Sashte,Haveli', 'Tarade,Haveli', 'Dongargaon,Haveli', 'Thoptewadi,Haveli',
+              'Gorhe Kh.,Haveli', 'Dehu,Haveli', 'Malinagar,Haveli', 'Vitthal Nagar,Haveli',
+              'Gorhe Bk.,Haveli', 'Bivari,Haveli', 'Sangarun,Haveli', 'Agalambe,Haveli', 'Arvi,Haveli',
+              'Pimpri Tarf Sandas,Haveli', 'Sangavi Tarf Sandas,Haveli', 'Jambhali,Haveli', 'Ashtapur,Haveli',
+              'Bhagatwadi,Haveli', 'Gaud Dara,Haveli', 'Wade Bolhai,Haveli', 'Shindwane,Haveli',
+              'Kalyan,Haveli', 'Ghera Sinhgad,Haveli', 'Kudaje,Haveli', 'Donaje,Haveli', 'Wanjalewadi,Haveli',
+              'Burkegaon,Haveli', 'Nhavi Sandas,Haveli', 'Shindewadi,Haveli', 'Gawadewadi,Haveli',
+              'Murkutenagar,Haveli', 'Khamgaon Tek,Haveli', 'Ramoshiwadi,Haveli', 'Mokarwadi,Haveli',
+              'Khadewadi,Haveli', 'Bahuli,Haveli', 'Tanaji Nagar,Haveli', 'Sonapur,Haveli', 'Vardare,Haveli',
+              'Sambharewadi,Haveli', 'Khamgaon Mawal,Haveli', 'Mogarwadi,Haveli', 'Mordarwadi,Haveli',
+              'Avasare,Haveli', 'Rahatvade,Haveli', 'Hingangaon,Haveli', 'Shiraswadi,Haveli', 'Katavi,Mawal',
+              'Kale,Mawal', 'Prabhachiwadi,Mawal', 'Yelse,Mawal', 'Ardav (Adavi),Mawal', 'Kadadhe,Mawal',
+              'Nane,Mawal', 'Tung,Mawal', 'Tikona,Mawal', 'Chavsar,Mawal', 'Boravli,Mawal', 'Inglun,Mawal',
+              'Khand,Mawal', 'Kolechafesar,Mawal', 'Kusur,Mawal', 'Morave,Mawal', 'Pimpriwadi,Mawal',
+              'Shivali,Mawal', 'Thoran,Mawal', 'Ukasan,Mawal', 'Vadeshwar,Mawal', 'Kusgaon P.m.,Mawal',
+              'Takave Bk.,Mawal', 'Shevati,Mawal', 'Pansoli,Mawal', 'Atvan,Mawal', 'Malegao Bk.,Mawal',
+              'Apati,Mawal', 'Bhajgaon,Mawal', 'Bhoyre,Mawal', 'Divad,Mawal', 'Govitri,Mawal', 'Jovan,Mawal',
+              'Kondiwade,Mawal', 'Pachane,Mawal', 'Pale,Mawal', 'Udhewadi,Mawal', 'Vadavali,Mawal',
+              'Pangloli,Mawal', 'Karandoli,Mawal', 'Dhaiwali,Mawal', 'Shilatane,Mawal', 'Takave Kh.,Mawal',
+              'Rajpuri,Mawal', 'Kurvande,Mawal', 'Lonawale,Mawal', 'Malavandi Thule,Mawal', 'Ambegaon,Mawal',
+              'Kunewadi,Mawal', 'Dahuli,Mawal', 'Mangarul,Mawal', 'Somwadi,Mawal', 'Kondivade N.m,Mawal',
+              'Dudhivare,Mawal', 'Vagheshwar,Mawal', 'Shilimb,Mawal', 'Sawale,Mawal', 'Pusane,Mawal',
+              'Malegao Kh,Mawal', 'Ajivali,Mawal', 'Valakh,Mawal', 'Sawantwadi,Mawal', 'Malewadi,Mawal',
+              'Mahagaon,Mawal', 'Lohagad,Mawal', 'Kambare N.m.,Mawal', 'Dhalewadi,Mawal', 'Budhavadi,Mawal',
+              'Gevhandhe,Mawal', 'Nagatali,Mawal', 'Rakaswadi,Mawal', 'Kusavali,Mawal', 'Wahangao,Mawal',
+              'Kiwale,Mawal', 'Shirdhe,Mawal', 'Jamboli,Mawal', 'Nandgaon,Mawal', 'Shindgaon,Mawal',
+              'Kambare Andar,Mawal', 'Kashal,Mawal', 'Khandashi,Mawal', 'Nesave,Mawal', 'Valavanti,Mawal',
+              'Dhangavhan,Mawal', 'Ovale,Mawal', 'Yelghol,Mawal', 'Velholi,Mawal', 'Karanjgaon,Mawal',
+              'Sangise,Mawal', 'Pale Nane Mawal,Mawal', 'Mormarwadi,Mawal', 'Mau,Mawal', 'Kacharewadi,Mawal',
+              'Vaund,Mawal', 'Brahmanwadi,Mawal', 'Done,Mawal', 'Kothurne,Mawal', 'Shire,Mawal',
+              'Belaj,Mawal', 'Jeware,Mawal', 'Vehergaon,Mawal', 'Budhle N.M.,Mawal', 'Vadivale,Mawal',
+              'Adhale bk,Mawal', 'Adhale kh.,Mawal', 'Shivane,Mawal', 'Phalne,Mawal', 'Ghonshet,Mawal',
+              'Sai,Mawal', 'Bhadawali,Mawal', 'Majgaon,Mawal', 'Pimpal Khunte,Mawal', 'Malawali P.m.,Mawal',
+              'Bedse,Mawal', 'Thugaon,Mawal', 'Varu,Mawal', 'Phagane,Mawal', 'Kadav,Mawal',
+              'Gevhande Khadak,Mawal', 'Keware,Mawal', 'Thakursai,Mawal', 'Brahmanoli,Mawal', 'Muthe,Mulshi',
+              'Padalgharwadi,Mulshi', 'Mugaon,Mulshi', 'Valane,Mulshi', 'Ugavali,Mulshi', 'Jawal,Mulshi',
+              'Ghutake,Mulshi', 'Ekole,Mulshi', 'Tailbaila,Mulshi', 'Bhambarde,Mulshi', 'Botarwadi,Mulshi',
+              'Chandivali,Mulshi', 'Andgaon,Mulshi', 'Dhamanohol,Mulshi', 'Koloshi,Mulshi', 'Sakhari,Mulshi',
+              'Kharavade,Mulshi', 'Pimploli,Mulshi', 'Masgaon,Mulshi', 'Wadavali,Mulshi', 'Admal,Mulshi',
+              'Bhembhatmal,Mulshi', 'Palase,Mulshi', 'Patharshet,Mulshi', 'Saiv Kh,Mulshi', 'Bhode,Mulshi',
+              'Mulshi Kh,Mulshi', 'Tata Talav,Mulshi', 'Karmoli,Mulshi', 'Shedani,Mulshi', 'Kolwan,Mulshi',
+              'Sathesai,Mulshi', 'Mugavde,Mulshi', 'Katavadi,Mulshi', 'Davje,Mulshi', 'Malegaon,Mulshi',
+              'Wanjale,Mulshi', 'Watunde,Mulshi', 'Vede,Mulshi', 'Mandede,Mulshi', 'Jatede,Mulshi',
+              'Kashing,Mulshi', 'Amaralewadi,Mulshi', 'Barape_Bk,Mulshi', 'Bhalgudi,Mulshi', 'Saltar,Mulshi',
+              'Shirvali,Mulshi', 'Nive,Mulshi', 'Andhale,Mulshi', 'Ambarwet,Mulshi', 'Vandre,Mulshi',
+              'Vadgaon,Mulshi', 'Pimpri,Mulshi', 'Rihe,Mulshi', 'Katarkhadak,Mulshi', 'Nandgaon,Mulshi',
+              'Padalghar,Mulshi', 'Mose Kh.,Mulshi', 'Dhadavali,Mulshi', 'Gadhale,Mulshi', 'Chinchwad,Mulshi',
+              'Kule,Mulshi', 'Hulavalewadi,Mulshi', 'Tamhini Bk,Mulshi', 'Warak,Mulshi', 'Vegre,Mulshi',
+              'Kolavade,Mulshi', 'Kondhur,Mulshi', 'Pethshahapur,Mulshi', 'Devghar,Mulshi', 'Ambavane,Mulshi',
+              'Kolavali,Mulshi', 'Pomgaon,Mulshi', 'Male,Mulshi', 'Kumbheri,Mulshi', 'Jamgaon,Mulshi',
+              'Share,Mulshi', 'Disali,Mulshi', 'Shileshwar,Mulshi', 'Bhadas Bk.,Mulshi', 'Gavadewadi,Mulshi',
+              'Dongrgaon,Mulshi', 'Hotale,Mulshi', 'Nanegaon,Mulshi', 'Asade,Mulshi', 'Chikhali Bk.,Mulshi',
+              'Belwade,Mulshi', 'Tav,Mulshi', 'Chale,Mulshi', 'Darawali (Dakhli),Mulshi', 'Morewadi,Mulshi',
+              'Bharekarwadi,Mulshi', 'Kasarsai,Mulshi', 'Visakhar,Mulshi', 'Walen,Mulshi', 'Hadasi,Mulshi',
+              'Kalamshet,Mulshi', 'Vitthalwadi,Mulshi', 'Andeshe,Mulshi', 'Khubawali,Mulshi',
+              'Temghar,Mulshi', 'Lavarde,Mulshi', 'Khechre,Mulshi', 'Marnewadi,Mulshi', 'Bhuini,Mulshi',
+              'Savargaon,Mulshi', 'Akole,Mulshi', 'Kondhavale,Mulshi', 'Paud,Mulshi', 'Dakhane,Mulshi',
+              'Sambhave,Mulshi', 'Khamboli,Mulshi', 'Kemasewadi,Mulshi', 'Adgaon,Mulshi',
+              'Chikhalgaon,Mulshi', 'Ravade,Mulshi', 'Nandivali,Mulshi', 'Dasave,Mulshi', 'Bhambavade,Bhor',
+              'Bhongavli,Bhor', 'Dhangavadi,Bhor', 'Gunand,Bhor', 'Kenjal,Bhor', 'Khadki,Bhor', 'Kikavi,Bhor',
+              'Morwadi,Bhor', 'Nhavi,Bhor', 'Nidhan,Bhor', 'Nigade,Bhor', 'Pande,Bhor', 'Panjalwadi,Bhor',
+              'Rajapur,Bhor', 'Sangavi Kh,Bhor', 'Sarole,Bhor', 'Savardare,Bhor', 'Taprewadi,Bhor',
+              'Umbare,Bhor', 'Vathar Kh,Bhor', 'Wagajwadi,Bhor', 'Degaon,Bhor', 'Didghar,Bhor',
+              'Jambhali,Bhor', 'Kambare,Bhor', 'Kanjale,Bhor', 'Karandi,Bhor', 'Ketkavane,Bhor', 'Khopi,Bhor',
+              'Kolavadi,Bhor', 'Kurungvadi,Bhor', 'Kusgaon,Bhor', 'Malegaon,Bhor', 'Parvadi,Bhor',
+              'Ranje,Bhor', 'Salavade,Bhor', 'Sangavi Bk,Bhor', 'Sonavadi,Bhor', 'Virwadi,Bhor',
+              'Tamhanwadi,Daund', 'Sahajpurwadi,Daund', 'Nandur,Daund', 'Dalimb,Daund', 'Takali,Daund',
+              'Vadgaon Bande,Daund', 'Koregaon Bhiwar,Daund', 'Telewadi,Daund', 'Panwali,Daund',
+              'Pilanwadi,Daund', 'Mirwadi,Daund', 'Dahitane,Daund', 'Devkarwadi,Daund', 'Boribhadak,Daund',
+              'Boriaindi,Daund', 'Boratewadi,Daund', 'Bharatgaon,Daund', 'Jawajebuwachiwadi,Daund',
+              'Kamatwadi,Daund', 'Kasurdi,Daund', 'Bhandgaon,Daund', 'Patethan,Daund', 'Tambewadi,Daund',
+              'Ladkatwadi,Daund', 'Khutbav,Daund', 'Pimpalgaon,Daund', 'Delvadi (Ekeriwadi),Daund',
+              'Undawadi,Daund', 'Nathachiwadi,Daund', 'Valki,Daund', 'Rahu,Daund', 'Khamgaon,Daund',
+              'Nangaon,Daund', 'Amoni Mal,Daund', 'Ganesh Road,Daund', 'Varwand,Daund', 'Khopodi,Daund',
+              'Handalwadi,Daund', 'Wakhari,Daund', 'Dapodi,Daund', 'Pargaon,Daund', 'Deshmukh Mala,Daund',
+              'Nimbalkar Wasti,Daund', 'Galandwadi,Daund', 'Kodit Kh.,Purandar', 'Pur,Purandar',
+              'Pokhar,Purandar', 'Warwadi,Purandar', 'Kumbhoshi,Purandar', 'Somurdi,Purandar',
+              'Gherapurandhar,Purandar', 'Supe  Kh.,Purandar', 'Misalwadi,Purandar', 'Thapewadi,Purandar',
+              'Bhivari,Purandar', 'Bhivadi,Purandar', 'Bahirwadi,Purandar', 'Bhopgaon,Purandar',
+              'Patharwadi,Purandar', 'Pimpale,Purandar', 'Panvadi,Purandar', 'Hivare,Purandar',
+              'Kodit Budruk,Purandar', 'Askarwadi,Purandar', 'Chambali,Purandar', 'Borhalewadi,Purandar',
+              'Garade,Purandar', 'Ambawane,Velhe', 'Chinchale Bk,Velhe', 'Karajwane,Velhe', 'Adavali,Velhe',
+              'Askawadi,Velhe', 'Ketkavane,Velhe', 'Kolwadi,Velhe', 'Lasirgaon,Velhe', 'Margasani,Velhe',
+              'Khambawadi,Velhe', 'Mangdari,Velhe', 'Mangaon,Velhe', 'Pole,Velhe', 'Kasedi,Velhe',
+              'Chikhali Kh,Velhe', 'Bhalvadi,Velhe', 'Thangaon,Velhe', 'Shirkoli,Velhe', 'Ghodshet,Velhe',
+              'Ambed,Velhe', 'Khamgaon,Velhe', 'Vinzar,Velhe', 'Wangani,Velhe', 'Varasgaon,Velhe',
+              'Ambegaon Kh,Velhe', 'Gholapghar,Velhe', 'Kambegi,Velhe', 'Ranjane,Velhe', 'Dapode,Velhe',
+              'Chinchale Kh,Velhe', 'Kuran Bk,Velhe', 'Vadghar,Velhe', 'Givashi,Velhe', 'Koshimghar,Velhe',
+              'Mose Bk,Velhe', 'Saiv Bk.,Velhe', 'Ranavdi,Velhe', 'Boravale,Velhe', 'Nigade Bk.,Velhe',
+              'Panshet,Velhe', 'Kondgaon,Velhe', 'Malavli,Velhe', 'Kathawadi,Velhe', 'Rule,Velhe',
+              'Kuran Kh,Velhe', 'Dhindli,Velhe', 'Ambegaon Bk,Velhe', 'Osade,Velhe', 'Nigade Mose,Velhe',
+              'Kandave,Velhe', 'Wanjalwadi,Velhe', 'Kurvathi,Velhe', 'Pimpale Jagtap,Shirur',
+              'Wajewadi,Shirur', 'Kasari,Shirur', 'Jategaon Kh.,Shirur', 'Takali Bhima,Shirur',
+              'Kondhapuri,Shirur', 'Khairewadi,Shirur', 'Rautwadi,Shirur', 'Karandi,Shirur', 'Amdabad,Shirur',
+              'Jategaon Bk.,Shirur', 'Kendur,Shirur', 'Shastabad,Shirur', 'Khandale,Shirur',
+              'Sone Sangavi,Shirur', 'Hivare,Shirur', 'Burunjwadi,Shirur', 'Darekarwadi,Shirur',
+              'Vitthalwadi,Shirur', 'Dingrajwadi,Shirur', 'Malthan,Shirur', 'Waghale,Shirur', 'Varude,Shirur',
+              'Shivtakrar Mahalungi,Shirur', 'Shingadwadi,Shirur', 'Ranjangaon Sandas,Shirur',
+              'Rakshewadi,Shirur', 'Pimpale Dumal,Shirur', 'Pimpari Dumala,Shirur', 'Nimgaon Bhogi,Shirur',
+              'Mukhai,Shirur', 'Motewadi,Shirur', 'Midgulwadi,Shirur', 'Lakhewadi,Shirur',
+              'Karanjawane,Shirur', 'Golegaon,Shirur', 'Dhanore,Shirur', 'Dhamari,Shirur', 'Dahiwadi,Shirur',
+              'Chincholi,Shirur', 'Bhambarde,Shirur', 'Arangaon,Shirur', 'Ambale,Shirur',
+              'Ganegaon Burunjwadi,Shirur', 'Kanhur mesai,Shirur', 'Pabal,Shirur', 'Andhalgaon,Shirur',
+              'Nimone,Shirur', 'Nhavara,Shirur', 'Kohakdewadi,Shirur', 'Uralgaon,Shirur',
+              'Alegaon Paga,Shirur', 'Nagargaon,Shirur', 'Babhulsar Kh.,Shirur', 'Chavhanwadi,Shirur',
+              'Parodi,Shirur', 'Nimgaon Mhalungi,Shirur', 'Karade,Shirur', 'Nighoje,Khed', 'Moi,Khed',
+              'Khalumbre,Khed', 'Mahalunge,Khed', 'Kanhewadi Tarf Chakan,Khed', 'Sangurdi,Khed',
+              'Shinde,Khed', 'Wasuli,Khed', 'Yevalewadi,Khed', 'Sawardari,Khed', 'Kuruli,Khed',
+              'Medankarwadi,Khed', 'Nanekarwadi,Khed', 'Sudumbare,Mawal', 'Chimbali,Khed', 'Indori,Mawal',
+              'Biradwadi,Khed', 'Bhamboli,Khed', 'Ambethan,Khed', 'Kharabwadi,Khed', 'Warale,Khed',
+              'Kadachiwadi,Khed', 'Sudhavadi,Mawal', 'Jambavade,Mawal', 'Bhare,Mulshi', 'Kasar Amboli,Mulshi',
+              'Mukhaiwadi,Mulshi', 'Uravade,Mulshi', 'Bhukum,Mulshi', 'Nande,Mulshi', 'Sus,Mulshi',
+              'Bavadhan Bk,Mulshi', 'Vadki,Haveli', 'Ghotavde,Mulshi', 'Talegaon Dabhade (R),Mawal',
+              'Urse,Mawal', 'Parandwadi,Mawal', 'Bhilarewadi,Haveli', 'Jambhulwadi,Haveli', 'Kolavadi,Haveli',
+              'Sasewadi,Bhor', 'Shindewadi,Bhor', 'Lavale,Mulshi', 'Man,Mulshi', 'Sanas Nagar,Haveli',
+              'Nandoshi,Haveli', 'Pirangut,Mulshi', 'Vadgaon Shinde,Haveli', 'Loni-Kalbhor,Haveli',
+              'Dive,Purandar', 'Ambegaon,Mulshi', 'Pawarwadi,Purandar', 'Kalewadi,Purandar',
+              'Sonori,Purandar', 'Bhugaon,Mulshi', 'Manjari Kh.,Haveli', 'Manjari Bk,Haveli',
+              'Kolavdi,Haveli', 'Shevalwadi,Haveli', 'Kadamvak Wasti,Haveli', 'Holkarwadi,Haveli',
+              'Autad Handewadi,Haveli', 'Vadachiwadi,Haveli', 'Pisoli,Haveli', 'Bebad Ohol,Mawal',
+              'Dhamne,Mawal', 'Godumbare,Mawal', 'Shirgaon,Mawal', 'Gahunje,Mawal', 'Salumbe,Mawal',
+              'Sangavade,Mawal', 'Jambe,Mulshi', 'Nere,Mulshi', 'Dattawadi,Mulshi', 'Hinjavadi,Mulshi',
+              'Marunji,Mulshi', 'Mahalunge,Mulshi', 'Materewadi,Mulshi', 'Bhoirwadi,Mulshi',
+              'Bhegdewadi,Mulshi', 'Chande,Mulshi', 'Mulkhed,Mulshi', 'Godambewadi,Mulshi',
+              'Bhowarapur,Haveli', 'Uruli Kanchan,Haveli', 'Peth,Haveli', 'Koregaon Mul,Haveli',
+              'Prayagdham,Haveli', 'Sortapwadi,Haveli', 'Kunjirwadi,Haveli', 'Theur,Haveli', 'Naygaon,Haveli',
+              'Mangewadi,Haveli', 'Nimbalkarwadi,Haveli', 'Kirkitwadi,Haveli', 'Khadakwasale,Haveli',
+              'Nanded ,Haveli', 'Kopare,Haveli', 'Kondhave Dhavade,Haveli', 'Mendhewadi,Mawal',
+              'Varale,Mawal', 'Malawadi,Mawal', 'Ambi,Mawal', 'Brahman Wadi,Mawal', 'Sate,Mawal',
+              'Mohitewadi,Mawal', 'Chikhalse,Mawal', 'Ahirvade,Mawal', 'Kusgaon Kh.,Mawal',
+              'Khadkale (CT),Mawal', 'Kamshet,Mawal', 'Paravadi,Mawal', 'Sadavli,Mawal', 'Ozarde,Mawal',
+              'Baur,Mawal', 'Brahmanwadi,Mawal', 'Karunj,Mawal', 'Adhe Kh.,Mawal', 'Somatane,Mawal',
+              'Jadhavwadi,Mawal', 'Akurdi,Mawal', 'Nanoli Tarf Chakan,Mawal', 'Sangavi,Mawal',
+              'Umbare Navalakh,Mawal', 'Badhalawadi,Mawal', 'Naygaon,Mawal', 'Nanoli N.m.,Mawal',
+              'Jambhul,Mawal', 'Kanhe,Mawal', 'Ambale,Mawal', 'Nigade,Mawal', 'Kalhat,Mawal',
+              'Pawalewadi,Mawal', 'Boraj,Mawal', 'Patan,Mawal', 'Kusgaon Bk. (CT),Mawal', 'Devale,Mawal',
+              'Aundhe kh.,Mawal', 'Dongargaon,Mawal', 'Aundholi,Mawal', 'Varsoli,Mawal', 'Karla,Mawal',
+              'Waksai,Mawal', 'Devghar,Mawal', 'Sadapur,Mawal', 'Kune N.m.,Mawal', 'Bhaje,Mawal',
+              'Malvali,Mawal', 'Mudhavare,Mawal', 'Taje,Mawal', 'Pathargaon,Mawal', 'Pimploli,Mawal',
+              'Santosh Nagar ,Khed', 'Rakshewadi,Khed', 'Waki Kh,Khed', 'Holewadi,Khed', 'Chandoli,Khed',
+              'Varachi Bhamburwadi,Khed', 'Sandbhorwadi,Khed', 'Pacharnewadi,Khed', 'Dhorewadi,Khed',
+              'Vadgaon Tarf Khed,Khed', 'Shiroli,Khed', 'Satkarsthal,Khed', 'Koregaon Bhima _CT,Shirur',
+              'Sanaswadi ,Shirur', 'Shikrapur,Shirur', 'Talegaon Dhamdhere,Shirur', 'Apti,Shirur',
+              'Vadu Bk.,Shirur', 'Shirur_Annapur_Saradwadi_Tardobachiwadi_Kardilwad,Shirur',
+              'Dhok Sangavi,Shirur', 'Karegaon,Shirur', 'Ranjangaon Ganpati,Shirur', 'Vanpuri,Purandar',
+              'Udachiwadi,Purandar', 'Singapur,Purandar', 'Zendewadi,Purandar', 'Jadhavwadi,Purandar',
+              'Kumbharvalan,Purandar', 'Ambodi,Purandar', 'Gurholi,Purandar', 'Bhose,Khed', 'Alandi,Khed',
+              'Dhanore,Khed', 'Rase,Khed', 'Solu,Khed', 'Pimpalgaon Tarf Chakan,Khed', 'Tulapur,Haveli',
+              'Nirgudi,Haveli', 'Markal,Khed', 'Charholi Kh.,Khed', 'Kelgaon,Khed', 'Shivapur,Haveli',
+              'Khed Shivapur,Haveli', 'Ramnagar,Haveli', 'Kasurdi,Bhor', 'Shivare,Bhor', 'Velu,Bhor',
+              'Hrishchandri,Bhor', 'Kapurhol,Bhor', 'Divale,Bhor', 'Kamthadi,Bhor', 'Kelavade,Bhor',
+              'Nasrapur,Bhor', 'Naygaon,Bhor', 'Varve Bk.,Bhor', 'Varve Kh.,Bhor', 'Ketkawale,Purandar',
+              'Chivewadi,Purandar', 'Devadi,Purandar', 'Awhalwadi,Haveli', 'Loni-kand,Haveli',
+              'Kesnand,Haveli', 'Taleranwadi,Haveli', 'Bhavadi,Haveli', 'Perane,Haveli', 'Phulgaon,Haveli',
+              'Wadhu Kh,Haveli', 'Wagholi,Haveli', 'Dhumalicha Mala,Daund', 'Kedgaon,Daund',
+              'Kedgaon Station,Daund', 'Dhaygudewadi,Daund', 'Boripardhi,Daund', 'Yawat Station,Daund',
+              'Yawat,Daund', 'Chandkhed,Mawal', 'Darumbare,Mawal', 'Vadgaon,Mawal', 'Golegaon,Khed',
+              'Narhe,Haveli'
+          ];
+          $(".search").autocomplete({
+              source: availableTags
+          });
+      });
+      </script>
+  
+  
 <!-- Add your other JavaScript code -->
 <style>
     /* Navbar background color */
@@ -62,6 +247,47 @@
     }
     a{
         text-decoration: none;
+    }
+    table {
+      margin-top: 5px;
+      margin-left: 10px;
+      width: 100%;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    .delete-button button {
+      padding: 5px 10px;
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .my-swal-container
+    {
+      
+      align-items: center;
+      padding: 5px;
+      font-size: 10px;
+    }
+    .my-swal-input{
+     
+      width: 85%;
+      color:black;
+    }
+    .my_swal_title{
+      font-size: 20px;
+    }
+    .my-swal-button{
+      padding: 10px;
+    }
+    .my_icon{
+      font-size: 10px;
+    }
+    .my_swal_text{
+      font-size: 8px;
     }
   </style>
         </head>
@@ -113,15 +339,20 @@
                                       </form>
                                     </a>
                                   </li>
+                                  <li>
+                                    
+                                      <a class="dropdown-item" href="{% url 'export_kml' %}" class="btn btn-primary">Export KML</a>
+                                   
+                                  </li>
                                 </ul>
                               </li>
-                  
+                                                      <!--Show username those login -->
                           <li class="nav-item dropdown me-5 pe-5" style="font-size: 15px;">
                             <h3 class="nav-link profile-username fw-bold text-capitalize" style="font-size: 15px; color: #004aad;" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               {{ user.username }}
                             </h3>
                   
-                            <ul class="dropdown-menu me-5" aria-labelledby="navbarDropdown" style="font-size: 13.7px;">
+                            <ul class="dropdown-menu me-5" aria-labelledby="navbarDropdown" style="font-size: 13px; padding: 20px;">
                               <li>
                                 <label for="" class="p-2">User-Email :</label>
                                 <p class=" px-2" style="color: #004aad;">{{ user.email }}</p>
@@ -132,10 +363,24 @@
                               <li>
                                 <hr class="dropdown-divider">
                               </li>
+                                                           <!--Bookmark code -->
                               <li>
-                                <button id="createBookmarkBtn" class="dropdown-item" style="font-size:12px; font-weight: bold; color:#004aad;" type="button" id="childDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                                <button id="saveBtn" class="dropdown-item" style="font-size:12px; font-weight: bold; color:#004aad;" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   Create Bookmark <i class="fal fa-plus-circle"></i>
-                              </button> 
+                                </button>
+                                         <!-- Show bookmark list--> 
+                              <table id="locationTable" style="overflow-y: auto;">
+                                <thead>
+                                  <tr>
+                                    <th>Name</th>
+                                   
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <!-- Table rows will be dynamically added here -->
+                                </tbody>
+                              </table>
                               </li>
                               <li>
                                 <hr class="dropdown-divider">
@@ -179,20 +424,7 @@
     
         </div>
 
-        <script>
-        
-            var saveBookmarkUrl = "{% url 'save_bookmark' %}";
-          </script>
-          <script>
-            // When the `Create Bookmark` button is clicked, open the form
-            function createBookmark() {
-              // Get the form element
-              const form = document.getElementById("createBookmarkForm");
-            
-              // Show the form
-              form.style.display = "block";
-            }
-            </script>
+       
 
                     <!--html2canvas-->
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>

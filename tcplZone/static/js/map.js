@@ -378,7 +378,7 @@ function SearchMe() {
 function fitbou(filter) {
   var layer = "DP:Revenue";
   var urlm =
-    "http://portal.tcplgeo.com:8080/geoservers/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+    "https://portal.tcplgeo.com:8080/geoservers/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
     layer +
     "&CQL_FILTER=" +
     filter +
@@ -419,116 +419,162 @@ function takeScreenshot() {
 
 
 //Bookmark_____________________________________________________________________
+$(document).ready(function() {
+  var saveBtn = document.getElementById('saveBtn');
 
-// Define the getMapCenter function
-function getMapCenter() {
-  // var map =  L.map('map');
-  var mapCenter = map.getCenter();
-  var latitude = mapCenter.lat();
-  var longitude = mapCenter.lng();
-  return {
-    latitude: latitude,
-    longitude: longitude
-  };
-}
-// Define the showCreateBookmarkForm function
-function showCreateBookmarkForm(event) {
-  var createBookmarkForm = document.getElementById("createBookmarkForm");
-  createBookmarkForm.style.display = "block";
+  saveBtn.addEventListener('click', function() {
+    var center = map.getCenter(); // Get the center of the map
+    var latitude = center.lat;
+    var longitude = center.lng;
 
-  if (createBookmarkForm) {
-    var mapCenter = getMapCenter();
-    var latitude = mapCenter.lat;
-    var longitude = mapCenter.lng;
+    // Show popup for entering location name
+    Swal.fire({
+      title: 'Enter Location Name',
+      input: 'text',
+      inputPlaceholder: 'Location Name',
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      showLoaderOnConfirm: true,
+      preConfirm: function(name) {
+        return new Promise(function(resolve, reject) {
+          if (name) {
+            resolve(name);
+          } else {
+            reject('Invalid name');
+          }
+        });
+      },
+      
+      allowOutsideClick: false,
+      customClass: {
+        title:'my_swal_title',
+        container: 'my-swal-container', // CSS class for the container
+        confirmButton: 'my-swal-button', // CSS class for the confirm button
+        cancelButton: 'my-swal-button', // CSS class for the cancel button
+        input: 'my-swal-input', // CSS class for the input field
+      },
+    }).then(function(name) {
+      if (name.isConfirmed) {
+        var locationName = name.value;
+        var username = '{{ request.user.username }}'; // Assuming you are using Django's authentication system
 
-    html2canvas(document.getElementById("map")).then(function(canvas) {
-      var screenshotData = canvas.toDataURL();
-      console.log("Screenshot data:", screenshotData);
+        saveLocationToDB(latitude, longitude, locationName, username);
+      }
+    }).catch(function(error) {
+      Swal.showValidationMessage(error);
+    });
+  });
 
-      var csrfTokenElement = document.querySelector(
-        'input[name="csrfmiddlewaretoken"]'
-      );
-      var csrfToken = csrfTokenElement ? csrfTokenElement.value : "";
-
-      $.ajax({
-        type: "POST",
-        url: saveBookmarkUrl,
-        data: {
-          screenshot: screenshotData,
-          name: createBookmarkForm.name.value,
-          latitude: mapCenter.latitude,
-          longitude: mapCenter.longitude,
-          csrfmiddlewaretoken: csrfToken
-        },
-        success: function(response) {
-          console.log("Bookmark saved successfully:", response);
-          // location.reload();
-        },
-        error: function(xhr, status, error) {
-          console.error("Error saving bookmark:", error);
-        }
-      });
+  function saveLocationToDB(latitude, longitude, locationName, username) {
+    $.ajax({
+      url: '/save-location/',
+      method: 'POST',
+      data: {
+        latitude: latitude,
+        longitude: longitude,
+        name: locationName,
+        username: username
+      },
+      success: function(response) {
+        console.log(response.message); // Log the response message
+      },
+      error: function(xhr, errmsg, err) {
+        console.log(xhr.status + ': ' + xhr.responseText);
+      }
     });
   }
-}
 
-// Add an event listener to the createBookmarkBtn
-var createBookmarkBtn = document.getElementById("createBookmarkBtn");
-if (createBookmarkBtn) {
-  createBookmarkBtn.addEventListener("click", function(event) {
-    event.preventDefault();
-    showCreateBookmarkForm();
+  $(document).on('click', '#locationTable td.name', function() {
+    var latitude = parseFloat($(this).data('latitude'));
+    var longitude = parseFloat($(this).data('longitude'));
+    map.flyTo([latitude, longitude], 17);
   });
-}
-//     document.addEventListener('DOMContentLoaded', function() {
-//     var createBookmarkBtn = document.getElementById('createBookmarkBtn');
-//     if (createBookmarkBtn) {
-//       createBookmarkBtn.addEventListener('click', createBookmark);
-//     }
+                                                // for zoom
+  function fetchLocations() {
+          $.ajax({
+            url: "/get-locations/",
+            method: "GET",
+            success: function (response) {
+              var locations = response.locations;
+              var tableBody = $("#locationTable tbody");
+              tableBody.empty();
 
-//     function createBookmark() {
-//       var bookmarkName = window.prompt('Enter the bookmark name:');
-//       var promptDialog = document.getElementsByClassName('prompt-dialog-box')[0];
-//       if (promptDialog) {
-//         promptDialog.classList.add('prompt-dialog');
-//       }
+              $.each(locations, function (index, location) {
+                var row = $("<tr>");
+                row.data("location-id", location.id); // Store the location ID in the row data attribute
+                $("<td>", {
+                  class: "name",
+                  text: location.name,
+                  "data-latitude": location.latitude,
+                  "data-longitude": location.longitude,
+                }).appendTo(row);
+                // $("<td>", { text: location.latitude }).appendTo(row);
+                // $("<td>", { text: location.longitude }).appendTo(row);
+                var deleteButton = $("<button>", { text: "Delete" });
+                var deleteButtonWrapper = $("<td>", {
+                  class: "delete-button",
+                }).append(deleteButton);
+                row.append(deleteButtonWrapper);
+                row.appendTo(tableBody);
+              });
+            },
+            error: function (xhr, errmsg, err) {
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+          });
+        }
 
-//       if (bookmarkName) {
-//         var mapCenter = map.getCenter();
-//         var latitude = mapCenter.lat;
-//         var longitude = mapCenter.lng;
+      
+                                            // for Delete
+  $(document).on("click", ".delete-button button", function () {
+    var row = $(this).closest("tr");
+    var locationId = row.data("location-id");
 
-//         html2canvas(document.getElementById('map')).then(function (canvas) {
-//           var screenshotData = canvas.toDataURL();
+    Swal.fire({
+      title: "Confirm Deletion",
+      text: "Are you sure you want to delete this location?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+      customClass: {
+        text:"my_swal_text",
+        title:"my_swal_title",
+        icon:"my_icon",
+        container: "my-swal-delete-container",
+        confirmButton: "my-swal-button",
+        cancelButton: "my-swal-button",
+        actions: "my-swal-actions",
+      },
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        deleteLocationFromDB(locationId, row);
+      }
+    });
+  });
 
-//           var csrfTokenElement = document.querySelector('input[name="csrfmiddlewaretoken"]');
-//           var csrfToken = csrfTokenElement ? csrfTokenElement.value : '';
+  function deleteLocationFromDB(locationId, row) {
+    $.ajax({
+      url: "/delete-location/",
+      method: "POST",
+      data: {
+        locationId: locationId,
+      },
+      success: function (response) {
+        console.log(response.message); // Log the response message
+        row.remove(); // Remove the deleted row from the table
+      },
+      error: function (xhr, errmsg, err) {
+        console.log(xhr.status + ": " + xhr.responseText);
+      },
+    });
+  }
 
-//           $.ajax({
-//             type: 'POST',
-//             url: saveBookmarkUrl,
-//             data: {
-//               screenshot: screenshotData,
-//               name: bookmarkName,
-//               latitude: latitude,
-//               longitude: longitude,
-//               csrfmiddlewaretoken: csrfToken // Add the CSRF token to the request data
-//             },
-//             success: function (response) {
-//               console.log('Bookmark saved successfully:', response);
-//               location.reload();
-//             },
-//             error: function (xhr, status, error) {
-//               console.error('Error saving bookmark:', error);
-//             }
-//           });
-//         });
-//       }
-//     }
-//   });
-                              // makeQuery
-
-
+  fetchLocations();
+  setInterval(fetchLocations, 1000);
+});
                               
     // ***************************************************************Make QUery***************************************************************
 
@@ -586,7 +632,8 @@ if (createBookmarkBtn) {
                                               type +
                                               "'>" +
                                               value +
-                                              "</option>");
+                                              "</option>"
+                                              );
                                       }
                                   });
                           });
@@ -668,57 +715,96 @@ if (createBookmarkBtn) {
 
       });
   });
+// Add event listener to prevent zooming
+function preventZoom(e) {
+  e.preventDefault();
+}
 
 
 
-  $(function() {
-      $("#selectvalue").change(function() {
-          var vars = ['layer', 'attributes', 'operator', 'selectvalue'];
-          for (let i = 0; i < vars.length; i++) {
-              //   var operator = document.getElementById("operator");
-              var layer = $("#layer option:selected").text();
-              var attributes = $("#attributes option:selected").text();
-              var operator = $("#operator option:selected").text();
-              var selectvalue = $("#selectvalue option:selected").text();
-          }
-          document.getElementById("textval").innerHTML = "From Layer " + layer + " column is " +
-              attributes + " " + operator + " value is " + selectvalue;
+  function loadMap(){
+    var layer = $("#layer option:selected").text();
+    var attributes = $("#attributes option:selected").text();
+    var operator = $("#operator option:selected").text();
+    var selectvalue = $("#selectvalue option:selected").text();
+  
+    document.getElementById("textval").innerHTML =
+      "From Layer " +
+      layer +
+      " column is " +
+      attributes +
+      " " +
+      operator +
+      " value is " +
+      selectvalue;
+  
+    var sql_filter1 = attributes + " Like '" + selectvalue + "'";
+    fitbou(sql_filter1, layer);
+    
+ // Add the following line to fix the page position
+ $('html, body').css({
+  'overflow': 'hidden',
+  'position': 'fixed',
+  'width': '100%',
+  'height': '100%'
+});
 
-          var sql_filter1 = attributes + " Like '" + selectvalue + "'"
-          // console.log(sql_filter1)
-          fitbou(sql_filter1, layer)
+  // Add event listener to prevent zooming
+document.addEventListener('wheel', preventZoom,{ passive: false });
+document.addEventListener('gesturestart', preventZoom);
+  
+    var wms_layerf = L.tileLayer.wms(
+      "https://portal.tcplgeo.com/geoservers/DP/wms",
+      {
+        layers: layer,
+        format: "image/png",
+        transparent: true,
+        tiled: true,
+        version: "1.1.0",
+        attribution: "ugc",
+        opacity: 1,
+        cql_filter: sql_filter1,
+        styles: "highlight",
+      }
+    );
+    wms_layerf.addTo(map);
+  
+    function fitbou(filter, layer1) {
+      var urlm =
+        "https://portal.tcplgeo.com/geoservers/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+        layer1 +
+        "&CQL_FILTER=" +
+        filter +
+        "&outputFormat=application/json";
+  
+      $.getJSON(urlm, function (data) {
+        geojson = L.geoJson(data, {});
+        map.fitBounds(geojson.getBounds());
 
-          var wms_layerf = L.tileLayer.wms(
-              "https://portal.tcplgeo.com/geoservers/DP/wms", {
-                  layers: layer,
-                  format: "image/png",
-                  transparent: true,
-                  tiled: true,
-                  version: "1.1.0",
-                  attribution: "ugc",
-                  opacity: 1,
-                  cql_filter: sql_filter1,
-                  styles: 'highlight',
-
-              }
-          );
-          wms_layerf.addTo(map);
-
-
-          function fitbou(filter, layer1) {
-              var urlm =
-                  "https://portal.tcplgeo.com/geoservers/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-                  layer1 + "&CQL_FILTER=" + filter + "&outputFormat=application/json";
-              // console.log(urlm)
-              $.getJSON(urlm, function(data) {
-                  geojson = L.geoJson(data, {});
-                  map.fitBounds(geojson.getBounds());
-              });
-          };
-
-
+         // Add the following lines to restore the page position and enable zooming
+      enableZoom();
+        
       });
-  })
+    }
+  }
 
-
+//   // Event listener to prevent zooming
+function preventZoom(e) {
+  if (e.ctrlKey || e.metaKey) {
+    e.preventDefault();
+  }
+}
+// Add this code where you close the query or in a suitable event
+  function enableZoom() {
+    // Remove event listeners to enable zooming
+    document.removeEventListener('wheel', preventZoom);
+    document.removeEventListener('gesturestart', preventZoom);
+    // Restore default styles
+    $('html, body').css({
+      'overflow': '',
+      'position': '',
+      'width': '',
+      'height': ''
+    });
+  }
 
