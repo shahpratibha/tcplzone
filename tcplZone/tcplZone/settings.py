@@ -69,12 +69,15 @@ WSGI_APPLICATION = "tcplZone.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        
+        'NAME': 'tcplauth',
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '5432',
+       
     }
 }
 
@@ -86,9 +89,15 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
 
@@ -103,6 +112,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTH_KEY = 'your_actual_api_key_value'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -123,3 +133,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
+
+
+
+
+GDAL_LIBRARY_PATH = 'C:/Users/TCPL-2/Desktop/zoneproject/.venv/Lib/site-packages/osgeo/gdal304.dll' 
+GEOS_LIBRARY_PATH = 'C:/Users/TCPL-2/Desktop/zoneproject/.venv/Lib/site-packages/osgeo/geos_c.dll'

@@ -442,8 +442,8 @@ body {
   
   
   .leaflet-control-wms-legend.leaflet-control {
-    height: 500px;
-    width: 304px;
+    /* height: 100px;
+    width: 104px; */
     overflow: scroll;
   }
   

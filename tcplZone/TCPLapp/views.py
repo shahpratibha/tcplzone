@@ -1,12 +1,36 @@
+
+# from django.conf import settings
 from django.shortcuts import render,HttpResponse,redirect, get_object_or_404 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-import csv
-from .models import Location
+# import urllib.request
+from django.template.loader import get_template
+# import csv
+from .models import Location, elements, Revenue1
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
+from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import LineString
+from django.contrib.gis.geos import GEOSGeometry
+import pyproj
+import json
+import geopandas as gpd
+from pyproj import CRS
+# from fpdf import FPDF
+# from selenium import webdriver
+# import time
+# import base64
 import requests
+
+# from django.http import FileResponse
+# from django.template.loader import render_to_string
+# from xhtml2pdf import pisa
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+import io
+
 
 
 
@@ -76,12 +100,6 @@ def LogoutPage(request):
     logout(request)
     return redirect('login')
 
-#selection ______________________________________________________________________
-
-# def selection(request):
-#      return render(request,"TCPLapp/selection.html")
- 
- 
    
 #coordinates
 
@@ -98,71 +116,73 @@ def coordinates(request):
 
 @login_required(login_url='login')
 def index(request):
-    if request.method == 'POST':
-        # Get the uploaded file from the request
-        uploaded_file = request.FILES['file']
-
-        # Process the file and save the imported data
-        imported_data = process_file(uploaded_file)  # Custom function to process the file
-
-        # Save the imported data to the database or perform any necessary operations
-        save_data(imported_data)  # Custom function to save the data
-
-        return render(request, 'import_success.html')
+  
 
     return render(request, "TCPLapp/index.html")
 
-def process_file(uploaded_file):
-    imported_data = []
+# search_button________________________________
 
-    # Assuming the file is a CSV file, process it using the csv module
-    reader = csv.reader(uploaded_file)
-    for row in reader:
-        # Assuming each row contains latitude and longitude values separated by a comma
-        if len(row) == 2:
-            lat = float(row[0])
-            lng = float(row[1])
-            imported_data.append((lat, lng))
+def autocomplete(request):
+    term = request.GET.get('term')
+    if term is not None:
+        products = elements.objects.filter(village_name_revenue__istartswith=term).values_list('village_name_revenue','taluka')
+        products_list1 = list(set(products))
+        products_list = [','.join(t) for t in products_list1]
+        
+        
+    return JsonResponse(products_list, safe=False)
 
-    return imported_data
 
-def save_data(imported_data):
-    # Assuming you have a Django model named MyModel to save the data
-    for lat, lng in imported_data:
-        MyModel.objects.create(latitude=lat, longitude=lng)
 
-def export_kml(request):
-    # Retrieve the dynamic coordinates based on user input or any other source
-    lat = request.GET.get('lat')  # Example: Get latitude from query parameter
-    lng = request.GET.get('lng')  # Example: Get longitude from query parameter
+def searchOnClick(request):
     
-    # Create a list of coordinate objects with the dynamic coordinates
-    coordinates = [{'lat': lat, 'lng': lng}]
-    
-    # Generate the KML file content with the selected coordinates
-    kml_content = generate_kml_content(coordinates)
-    
-    response = HttpResponse(kml_content, content_type='application/vnd.google-earth.kml+xml')
-    response['Content-Disposition'] = 'attachment; filename="exported_data.kml"'
-    return response
-def generate_kml_content(coordinates):
-    # Logic to generate the KML file content
-    # Customize this function based on your specific requirements
-     kml_content = '''<?xml version="1.0" encoding="UTF-8"?>
-                    <kml xmlns="http://www.opengis.net/kml/2.2">
-                        <Document>
-                            {% for coordinate in coordinates %}
-                            <Placemark>
-                                <name>Coordinate</name>
-                                <Point>
-                                    <coordinates>{{ coordinate.lng }},{{ coordinate.lat }},0</coordinates>
-                                </Point>
-                            </Placemark>
-                            {% endfor %}
-                        </Document>
-                    </kml>'''
+    response = request.GET.get("selected_value").split(",")
+    villageName, talukaName, gutNumber = response[0],response[1],response[2:]
+    print(gutNumber)
+    products1 = Revenue1.objects.filter(taluka=talukaName,  village_name_revenue=villageName, gut_number= str(gutNumber[0]))
+    print(products1,"++++++++++++++++++++++++++")
+    # coordinates_list = []
 
-     return kml_content
+    for instance in  products1:
+        coordinates_list = []
+        # if instance.geom.geom_type == 'Point':
+        #     coordinates_list.append(instance.geom.coords)
+        # # For LineString geometries:
+        # elif instance.geom.geom_type == 'LineString':
+        #     coordinates_list.append(instance.geom.coords)
+        # # For Polygon geometries:
+        # elif instance.geom.geom_type == 'Polygon':
+        #     # If you need the outer ring (exterior) coordinates of the polygon:
+        #     coordinates_list.append(instance.geom.coords[0])
+        # elif instance.geom.geom_type == 'MultiPolygon':
+            # If you need the outer ring (exterior) coordinates of the polygon:
+        # coordinates_list.append(instance.geom.coords[0])
+        # print(instance.geom.coords[0])
+  
+        geom_geojson = GEOSGeometry(json.dumps({"type": "MultiPolygon", "coordinates": [instance.geom.coords[0]]}))
+        
+        geom_geojson.transform(4326)  # Change the SRID to 4326
+        
+        feature = {
+        "type": "Feature",
+        "geometry": json.loads(geom_geojson.geojson),
+        "properties": {
+            "village_name_revenue": instance.village_name_revenue,
+            "taluka": instance.taluka,
+                        }
+                }
+        coordinates_list.append(feature)
+ 
+
+        geojson_data = {
+                    "type": "FeatureCollection",
+                    "features": coordinates_list
+                            }
+    # print(geojson_data,"{{{{{{{{{{{{}}}}}}}}}}}}")
+    data = {"message": "Data from onclick"}
+    
+    return JsonResponse(geojson_data, safe=False)
+  
 # Save BookMarks_____________________________
 
 @csrf_exempt
@@ -208,20 +228,3 @@ def delete_location(request):
     else:
         return JsonResponse({'message': 'Invalid request method.'}, status=400)
 
-
-
-# Pdf
-def save_screenshot(request):
-    if request.method == "POST":
-        image_data = request.POST.get("image")
-
-        # Save the image data as a file
-        import base64
-
-        image_data = base64.b64decode(image_data.split(",")[1])
-
-        with open("screenshot.png", "wb") as f:
-            f.write(image_data)
-
-        # Return a JSON response indicating success
-        return JsonResponse({"message": "Screenshot saved successfully."})

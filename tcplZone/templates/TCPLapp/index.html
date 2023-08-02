@@ -38,7 +38,7 @@
     <!-- Add SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 
-    <script>
+   <!-- <script>
       $(function() {
           var availableTags = ['Pimpalgaon Tarf Khed,Khed', 'Rohakal,Khed', 'Kanersar,Khed', 'Chinchoshi,Khed',
               'Sabalewadi,Khed', 'Sidhegavhan,Khed', 'Torne Bk,Khed', 'Hedruj,Khed', 'Davadi,Khed',
@@ -224,7 +224,7 @@
       </script>
   
   
-<!-- Add your other JavaScript code -->
+--><!-- Add your other JavaScript code -->
 <style>
     /* Navbar background color */
     .navbar-light {
@@ -317,7 +317,7 @@
                         
                   
                             <li class="nav-item dropdown position-static" style="font-size: 15px;">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
                                   Select option
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="font-size: 14px; font-weight: bold;">
@@ -341,7 +341,7 @@
                                   </li>
                                   <li>
                                     
-                                      <a class="dropdown-item" href="{% url 'export_kml' %}" class="btn btn-primary">Export KML</a>
+                                      {% comment %} <a class="dropdown-item" href="{% url 'export_kml' %}" class="btn btn-primary">Export KML</a> {% endcomment %}
                                    
                                   </li>
                                 </ul>
@@ -359,6 +359,14 @@
                               </li>
                               <li>
                               
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                                  <!--PDF -->
+                              <li class="nav-item me-5">
+                                <button onclick="downloadPDF('{{ user.username }}', '{{ user.email }}')" id="generatePdfButton" class="text-light border-0" style="background:#004aad;">
+                                  <i class="fas fa-download"> Export map as PDF</i>
                               </li>
                               <li>
                                 <hr class="dropdown-divider">
@@ -402,13 +410,13 @@
                   
     
             <section id="content-wrapper">
-                <div id="map"></div>
+                <div id="map" class="leaflet-container"></div>
     
                 <div id="main">
                    <div class="main_search">
-                        <input type="text" placeholder="Search.." name="search2" class="search">
+                        <input type="text" placeholder="Search.." name="search2" class="search" id="search-input">
     
-                        <button class="bg-light" id="btnData2" type="button" onclick="SearchMe()"><i class="far fa-search"></i></button>
+                        <button class="bg-light" id="btnData2" type="button" ><i class="far fa-search"></i></button>
     
                         <button class="btn-success" id="btnData1" type="button" onclick="ClearMe()">Clear</button>
     
@@ -425,12 +433,49 @@
         </div>
 
        
-
+      </div>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+      <!--html2pdf--> 
+      <script src="{% static 'js/jspdf.umd.min.js' %}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+      
+  <!-- jquery -->
+        <script>
+          
+          var imageUrl = "{% static 'images/legend1.png' %}"; // Replace with the actual URL of your image
+        </script>
                     <!--html2canvas-->
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+                    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script> {% endcomment %}
+                    {% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>     {% endcomment %}
                     <!-- jquery -->
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+                    {% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> {% endcomment %}
+                    <script
+  src="https://code.jquery.com/jquery-3.7.0.min.js"
+  integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+  crossorigin="anonymous"></script>
+                    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+                    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+                    
+                    <script>
+                      $(function() {
+                // Initialize autocomplete widget
+
+                $("#search-input").autocomplete({
+                source: "/autocomplete/",
+                });
+                });
+
+
+
+
+                
+
+                    </script>
+                    
+                    
+                    
+                    
                     <!--leaflet-->
                     <script src="{% static 'libs/leaflet/leaflet.js' %}"></script>
                       <!--Bootstrap-->
@@ -460,8 +505,12 @@
                       <!--sweetalert-->        
                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
                 
-                
+                                      
                   
+                   <script>
+                    // Define a global JavaScript variable to hold the static image URL
+                    var northImageUrl = "{% static 'images/North.png' %}";
+                           </script>                 
           <script src="{% static 'js/map.js' %}"></script>
 
                 

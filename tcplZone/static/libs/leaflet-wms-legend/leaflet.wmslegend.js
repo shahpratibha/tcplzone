@@ -51,8 +51,8 @@ L.Control.WMSLegend = L.Control.extend({
             this.displayStyle = this.img.style.display;
             this.img.style.display = 'none';
            // this.container.innerHTML = '<i class="far fa-clipboard-list"></i>';
-            this.container.style.height = '40px';
-            this.container.style.width = '40px';
+            this.container.style.height = '20px';
+            this.container.style.width = '20px';
             this.container.style.margin  = '10px';
         }
     },

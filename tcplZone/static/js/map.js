@@ -25,128 +25,84 @@ var Esri_WorldImagery = L.tileLayer(
       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
   }
 );
-// <!-- -----------------layer displayed------------------------ -->
 
+// <!-- -----------------layer displayed------------------------ -->
 var baseLayers = {
   SImagery: Esri_WorldImagery,
   GoogleImage: googleSat,
   OSM: osm
 };
 
-var wms_layer1 = L.tileLayer.wms(
-  "http://portal.tcplgeo.com:8080/geoservers/DP/wms",
+var wms_layer = L.tileLayer.wms(
+  "http://localhost:8080/geoserver/postgresql/wms",
   {
-    // layers: layerName,
+    layers: "postgresql:VILLAGE_BOUNDARY",
     format: "image/png",
     transparent: true,
-    tiled: true,
     version: "1.1.0",
-    attribution: "Revenue",
-    opacity: 1
+    attribution: "VILLAGE_BOUNDARY"
   }
 );
-var userRole = "<?php echo 'shantaram'; ?>";
 
-var shantaramList = [
-  "DP:DP",
-  "DP:Revenue",
-  "DP:RP",
-  "DP:Change_overlay1",
-  "DP:Change_overlay",
-  "DP:Modification"
-];
-var adminList = ["DP:DP", "DP:Revenue", "DP:RP", "DP:Modification"];
-var finalDraftList = ["DP:DP", "DP:Revenue", "DP:RP", "	DP:Change_overlay1"];
-var concatenatedList = [];
-var wmsLayersNames = ["DP", "Revenue", "RP", "Change_overlay1"];
-var wmsLayerss = {};
-
-if (userRole === "shantaram") {
-  finalDraftList = shantaramList;
-  wmsLayersNames = [
-    "DP",
-    "Revenue",
-    "RP",
-    "Change_overlay1",
-    "Change_overlay",
-    "Modification"
-  ];
-}
-if (userRole === "admin") {
-  finalDraftList = adminList;
-  wmsLayersNames = ["DP", "Revenue", "RP", "Modification"];
-}
-// console.log(finalDraftList);
-// console.log(wmsLayersNames);
-
-for (var i = 0; i < finalDraftList.length; i++) {
-  var concatenatedString = "wms_layer" + (i + 1);
-
-  // Function to create the GeoServer layer
-  var geoserverLayer = createGeoServerLayer(userRole);
-
-  function createGeoServerLayer(userRole) {
-    var concatenatedString = finalDraftList[i];
-    return createWMSLayer(concatenatedString);
-  }
-  if (finalDraftList[i] === "DP:DP") {
-    geoserverLayer.addTo(map);
-  }
-  wmsLayerss[wmsLayersNames[i]] = geoserverLayer;
-  concatenatedList.push(concatenatedString);
-}
-
-function createWMSLayer(layerName) {
-  return L.tileLayer.wms("http://portal.tcplgeo.com:8080/geoservers/DP/wms", {
-    layers: layerName,
+var wms_layer2 = L.tileLayer.wms(
+  "http://localhost:8080/geoserver/postgresql/wms",
+  {
+    layers: "postgresql:revenue_new",
     format: "image/png",
     transparent: true,
-    tiled: true,
     version: "1.1.0",
-    attribution: "Revenue_Boundary",
-    opacity: 0.7
-  });
-}
-var control = new L.control.layers(baseLayers).addTo(map);
+    attribution: "revenue_new"
+  }
+);
+
+wms_layer.addTo(map);
+var WMSlayers = {
+  VILLAGE_BOUNDARY: wms_layer,
+  revenue_new: wms_layer2
+
+};
+
+var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 
 //!-- popup -->
 
-map.on("contextmenu", e => {
-  let size = map.getSize();
-  let bbox = map.getBounds().toBBoxString();
-  let layer = "DP:Modification_Overlay";
-  let style = "DP:Modification_Overlay";
-  let urrr = `http://portal.tcplgeo.com:8080/geoservers/DP/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-    e.containerPoint.x
-  )}&Y=${Math.round(
-    e.containerPoint.y
-  )}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
+// map.on("contextmenu", e => {
+//   let size = map.getSize();
+//   let bbox = map.getBounds().toBBoxString();
+//   let layer = "DP:Modification_Overlay";
+//   let style = "DP:Modification_Overlay";
+//   let urrr = `http://portal.tcplgeo.com:8080/geoservers/DP/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
+//     e.containerPoint.x
+//   )}&Y=${Math.round(
+//     e.containerPoint.y
+//   )}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
 
-  // you can use this url for further processing such as fetching data from server or showing it on the map
+//   // you can use this url for further processing such as fetching data from server or showing it on the map
 
-  if (urrr) {
-    fetch(urrr).then(response => response.json()).then(html => {
-      var htmldata = html.features[0].properties;
-      let keys = Object.keys(htmldata);
-      let values = Object.values(htmldata);
-      let txtk1 = "";
-      var xx = 0;
-      for (let gb in keys) {
-        txtk1 +=
-          "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
-        xx += 1;
-      }
-      let detaildata1 =
-        "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
-        txtk1 +
-        "<tr><td>Co-Ordinates</td><td>" +
-        e.latlng +
-        "</td></tr></table></div>";
+//   if (urrr) {
+//     fetch(urrr).then(response => response.json()).then(html => {
+//       var htmldata = html.features[0].properties;
+//       let keys = Object.keys(htmldata);
+//       let values = Object.values(htmldata);
+//       let txtk1 = "";
+//       var xx = 0;
+//       for (let gb in keys) {
+//         txtk1 +=
+//           "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
+//         xx += 1;
+//       }
+//       let detaildata1 =
+//         "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
+//         txtk1 +
+//         "<tr><td>Co-Ordinates</td><td>" +
+//         e.latlng +
+//         "</td></tr></table></div>";
 
-      L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-    });
-  }
-});
+//       L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
+//     });
+//   }
+// });
+
 
 //<!-- googleEarth popup -->
 
@@ -273,15 +229,15 @@ var north = L.control({
 });
 north.onAdd = function(map) {
   var div = L.DomUtil.create("div", "info legend");
-  var imageUrl = "{% static 'images/North.png' %}";
+  var imageUrl = northImageUrl;
   div.innerHTML =
-    '<img src="' + imageUrl + '" style="height: 50px; width: 50px;">';
+    '<img src="' + imageUrl + '" style="height: 20px; width: 30px;">';
   return div;
 };
 north.addTo(map);
 
 (uri =
-  "https://portal.tcplgeo.com/geoservers/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=20&LAYER=DP:DP"), {
+  "http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=topp:states"), {
   // namedToggle: false,
 };
 L.wmsLegend(uri);
@@ -320,105 +276,63 @@ var measureControl = new L.Control.Measure({
 });
 measureControl.addTo(map);
 
-$("#btnData2").click(function() {
-  SearchMe();
-});
-
-$("#btnData1").click(function() {
-  ClearMe();
-});
-
-// *****************************************************************Search Button**********************************************************************
-function SearchMe() {
-  var array = $(".search").val().split(",");
-
-  if (array.length == 1) {
-    var sql_filter1 = "Gut_Number Like '" + array[0] + "'";
-    fitbou(sql_filter1);
-    wms_layer1.setParams({
-      cql_filter: sql_filter1,
-      styles: "highlight"
-    });
-    wms_layer1.addTo(map);
-  } else if (array.length == 2) {
-    var sql_filter1 =
-      "Village__1 Like '" +
-      array[0] +
-      "'" +
-      "AND Taluka Like '" +
-      array[1] +
-      "'";
-    fitbou(sql_filter1);
-    wms_layer1.setParams({
-      cql_filter: sql_filter1,
-      styles: "highlight"
-    });
-    wms_layer1.addTo(map);
-  } else if (array.length >= 3) {
-    var guts = array.slice(2, array.length).join(", ");
-    var sql_filter1 =
-      "Village__1 Like '" +
-      array[0] +
-      "'" +
-      "AND Gut_Number IN (" +
-      guts +
-      ")" +
-      "AND Taluka Like '" +
-      array[1] +
-      "'";
-    fitbou(sql_filter1);
-    wms_layer1.setParams({
-      cql_filter: sql_filter1,
-      styles: "highlight"
-    });
-    wms_layer1.addTo(map);
-  }
-}
-
-function fitbou(filter) {
-  var layer = "DP:Revenue";
-  var urlm =
-    "https://portal.tcplgeo.com:8080/geoservers/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-    layer +
-    "&CQL_FILTER=" +
-    filter +
-    "&outputFormat=application/json";
-  $.getJSON(urlm, function(data) {
-    geojson = L.geoJson(data, {});
-    map.fitBounds(geojson.getBounds());
-  });
-}
-
-function ClearMe() {
-  map.setView([18.55, 73.85], 10, L.CRS.EPSG3857);
-}
-
-// ***************************************************pdf*********************************************************
-
-function takeScreenshot() {
-  html2canvas(document.getElementById("map"), {
-    useCORS: true
-  }).then(function(canvas) {
-    var imgData = canvas.toDataURL("image/png");
-
-    var pdf = new jsPDF();
-    pdf.addImage(imgData, "PNG", 15, 25, 180, 135); //x,y , width, height
-
-    // Get the height of the canvas element and add it to the PDF
-    var imgHeight = canvas.height;
-
-    // Add the local image to the PDF
-    var img = new Image();
-    img.onload = function() {
-      pdf.addImage(img, "PNG", 15, 170, 180, 80);
-      pdf.save("map.pdf");
-    };
-    img.src = "finalLegend.png";
-  });
-}
+// search-button______________________________________
+            $(document).ready(function() {
 
 
-//Bookmark_____________________________________________________________________
+              var geojsonLayer; // Reference to the GeoJSON layer
+              var geojsonFeatures = []; // Array to store GeoJSON features
+
+              $("#btnData2").click(function() {
+                  var selectedValue = $("#search-input").val();
+                  console.log("Selected Value:", selectedValue);
+
+                 
+
+                  $.ajax({
+                      url: "/searchOnClick/",
+                      method: "GET",
+                      data: { "selected_value": selectedValue },
+                      dataType: "json",
+                      success: function(response) {
+                        
+                          console.log("Response:", response);
+
+                          geojsonFeatures = response.features;
+
+                          if (geojsonLayer) {
+                            geojsonLayer.removeFrom(map);
+                        }
+        
+                          // Process the response data here
+                         geojsonLayer = L.geoJSON(response).addTo(map);
+                                                
+           
+                           map.fitBounds(geojsonLayer.getBounds());
+                          
+                      },
+                      error: function(error) {
+                          console.log("Error:", error);
+                      }
+                  });
+              });
+            });
+
+
+               $("#btnData1").click(function() {
+                  ClearMe();
+                });
+
+
+
+
+
+
+
+
+
+
+// Bookmark_____________________________________________________________________
 $(document).ready(function() {
   var saveBtn = document.getElementById('saveBtn');
 
@@ -519,7 +433,7 @@ $(document).ready(function() {
               });
             },
             error: function (xhr, errmsg, err) {
-              console.log(xhr.status + ": " + xhr.responseText);
+              // console.log(xhr.status + ": " + xhr.responseText);
             },
           });
         }
@@ -575,236 +489,69 @@ $(document).ready(function() {
   fetchLocations();
   setInterval(fetchLocations, 1000);
 });
-                              
-    // ***************************************************************Make QUery***************************************************************
-
-    $("#button").click(function() {
-      $("#box form").toggle("slow");
-      $(document).ready(function() {
-          $.ajax({
-              type: "GET",
-              url: "https://portal.tcplgeo.com/geoservers/DP/wfs?request=getCapabilities",
-              dataType: "xml",
-              success: function(xml) {
-                  var select1 = $('#layer');
-
-                  $(xml).find('FeatureType').each(function() {
-                      $(this).find('Name').each(function() {
-                          var value = $(this).text();
-                          select1.append(
-                              "<option class='ddindent' value='" +
-                              value + "'>" + value + "</option>");
-                      });
-                  });
-              }
-          });
-      });
-      $(function() {
-          $("#layer").change(function() {
-              var attributes = document.getElementById("attributes");
-              var length = attributes.options.length;
-              for (i = length - 1; i >= 0; i--) {
-                  attributes.options[i] = null;
-              }
-              var value_layer1 = $(this).val();
-              $(document).ready(function() {
-                  $.ajax({
-                      type: "GET",
-                      url: "https://portal.tcplgeo.com/geoservers/wfs?service=WFS&request=DescribeFeatureType&version=1.1.0&typeName=" +
-                          value_layer1,
-                      dataType: "xml",
-
-                      success: function(xml) {
-
-                          var select2 = $('#attributes');
-                          $(xml).find('xsd\\:sequence').each(function() {
-                              $(this).find('xsd\\:element').each(
-                                  function() {
-                                      var value = $(this)
-                                          .attr('name');
-                                      var type = $(this).attr(
-                                          'type');
-                                      if (value != 'geom' &&
-                                          value != 'the_geom'
-                                      ) {
-                                          select2.append(
-                                              "<option class='ddindent' value='" +
-                                              type +
-                                              "'>" +
-                                              value +
-                                              "</option>"
-                                              );
-                                      }
-                                  });
-                          });
-                      }
-                  })
-              });
-              document.getElementById("textval").innerHTML = value_layer1;
-          })
-      });
-      $(function() {
-          $("#attributes").change(function() {
-              var operator = document.getElementById("operator");
-              var attributes = $("#layer option:selected").text();
-              var length = operator.options.length;
-              for (i = length - 1; i >= 0; i--) {
-                  operator.options[i] = null;
-              }
-              var value_type = $(this).val();
-              var value_attribute = $('#attributes option:selected').text();
-              operator.options[0] = new Option('Select operator', "");
-              if (value_type == 'xsd:short' || value_type == 'xsd:int' || value_type ==
-                  'xsd:double') {
-                  var operator1 = document.getElementById("operator");
-                  operator1.options[1] = new Option('>', '>');
-                  operator1.options[2] = new Option('<', '<');
-                  operator1.options[3] = new Option('=', '=');
-                  operator1.options[4] = new Option('<=', '<=');
-                  operator1.options[5] = new Option('=>', '=>');
-                  operator1.options[6] = new Option('IN ()', 'IN');
-                  operator1.options[7] = new Option('OR ||', 'OR');
-                  operator1.options[8] = new Option('AND &', 'AND');
-              } else if (value_type == 'xsd:string') {
-                  var operator1 = document.getElementById("operator");
-                  operator1.options[1] = new Option('Like', 'ILike');
-                  operator1.options[2] = new Option('IN ()', 'IN');
-                  operator1.options[3] = new Option('OR ||', 'OR');
-                  operator1.options[4] = new Option('AND &', 'AND');
-              }
 
 
-              var selectvalue = document.getElementById("selectvalue");
-              var length = selectvalue.options.length;
-              for (i = length - 1; i >= 0; i--) {
-                  selectvalue.options[i] = null;
-              }
-
-              $(document).ready(function() {
-                  $.ajax({
-                      type: "GET",
-                      url: "https://portal.tcplgeo.com/geoservers/wfs?service=wfs&version=1.0.0&request=getfeature&typename=" +
-                          attributes + "&PROPERTYNAME=" + value_attribute,
-                      dataType: "xml",
-                      success: function(xml) {
-                          var select3 = $('#selectvalue');
-                          var unq = new Array();
-                          $(xml).each(function() {
-                              $(this).find('gml\\:featureMember')
-                                  .each(function() {
-                                      unq.push($(this)
-                                          .text());
-                                  });
-                              let unique = unq.filter((item, i,
-                                  ar) => ar.indexOf(
-                                  item) === i);
-                              for (let i = 0; i < unique
-                                  .length; i++) {
-                                  select3.append(
-                                      "<option class='ddindent' value='" +
-                                      unique[i] + "'>" +
-                                      unique[i] + "</option>");
-                              }
-                          });
-                      }
-                  });
-              });
-              document.getElementById("textval").innerHTML = "From Layer" + attributes +
-                  " is " + value_attribute;
-          });
-
-      });
-  });
-// Add event listener to prevent zooming
-function preventZoom(e) {
-  e.preventDefault();
-}
+    //pdf____________________________________________________________
+ 
 
 
-
-  function loadMap(){
-    var layer = $("#layer option:selected").text();
-    var attributes = $("#attributes option:selected").text();
-    var operator = $("#operator option:selected").text();
-    var selectvalue = $("#selectvalue option:selected").text();
-  
-    document.getElementById("textval").innerHTML =
-      "From Layer " +
-      layer +
-      " column is " +
-      attributes +
-      " " +
-      operator +
-      " value is " +
-      selectvalue;
-  
-    var sql_filter1 = attributes + " Like '" + selectvalue + "'";
-    fitbou(sql_filter1, layer);
-    
- // Add the following line to fix the page position
- $('html, body').css({
-  'overflow': 'hidden',
-  'position': 'fixed',
-  'width': '100%',
-  'height': '100%'
-});
-
-  // Add event listener to prevent zooming
-document.addEventListener('wheel', preventZoom,{ passive: false });
-document.addEventListener('gesturestart', preventZoom);
-  
-    var wms_layerf = L.tileLayer.wms(
-      "https://portal.tcplgeo.com/geoservers/DP/wms",
-      {
-        layers: layer,
-        format: "image/png",
-        transparent: true,
-        tiled: true,
-        version: "1.1.0",
-        attribution: "ugc",
-        opacity: 1,
-        cql_filter: sql_filter1,
-        styles: "highlight",
-      }
-    );
-    wms_layerf.addTo(map);
-  
-    function fitbou(filter, layer1) {
-      var urlm =
-        "https://portal.tcplgeo.com/geoservers/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
-        layer1 +
-        "&CQL_FILTER=" +
-        filter +
-        "&outputFormat=application/json";
-  
-      $.getJSON(urlm, function (data) {
-        geojson = L.geoJson(data, {});
-        map.fitBounds(geojson.getBounds());
-
-         // Add the following lines to restore the page position and enable zooming
-      enableZoom();
+function downloadPDF(username, email) {
+  const { jsPDF } = window.jspdf;
+      // html2canvas(document.querySelector('.leaflet-container'),{
+      //   useCORS: true
+      // }).then(function (canvas) {
         
-      });
-    }
-  }
+  html2canvas(document.getElementById('map'), {
+      useCORS: true
+  }).then(function(canvas) {
+      var imgData = canvas.toDataURL('image/png');
 
-//   // Event listener to prevent zooming
-function preventZoom(e) {
-  if (e.ctrlKey || e.metaKey) {
-    e.preventDefault();
-  }
+      // var pdf = new jsPDF();
+      const pdf = new jsPDF('p', 'px', [canvas.width, canvas.height]);
+      
+
+      // Get the height of the canvas element and add it to the PDF
+      var imgHeight = canvas.height;
+      const text = 'TCPLgeo';
+            const fontSize = 25;
+            
+            const textWidth = pdf.getStringUnitWidth(text) * fontSize / pdf.internal.scaleFactor;
+            const textHeight = fontSize / pdf.internal.scaleFactor;
+      
+            // Calculate the center position
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const x = (pageWidth - textWidth) / 2;
+            const y = 30;
+      
+            // Add text above the map (centered both horizontally and vertically)
+            pdf.setFontSize(fontSize);
+            pdf.setTextColor('blue');
+            pdf.text(x, y, text);
+      
+            // Add user's name to the PDF
+            pdf.setFontSize(16);
+            pdf.setTextColor('black');
+            pdf.text(20, 40, `User:`, null, null, 'left');
+           
+            pdf.text(70, 40, username, null, null, 'left');
+      
+            // Add user's email to the PDF
+            pdf.setTextColor('black');
+            pdf.text(20, 60, `Email:`, null, null, 'left');
+            pdf.setTextColor('blue');
+            pdf.text(70, 60, email, null, null, 'left');
+      
+              // Add the image to the PDF without any scaling or clipping
+                pdf.addImage(imgData, 'PNG', 30, 70, 750, 400);
+      
+                // Add the image below the map
+                
+               
+                pdf.addImage(imageUrl, 'PNG', 30, 500, 750, 200); // Adjust the coordinates and size as needed
+      
+      pdf.save('TCPLmap.pdf');
+     
+  });
 }
-// Add this code where you close the query or in a suitable event
-  function enableZoom() {
-    // Remove event listeners to enable zooming
-    document.removeEventListener('wheel', preventZoom);
-    document.removeEventListener('gesturestart', preventZoom);
-    // Restore default styles
-    $('html, body').css({
-      'overflow': '',
-      'position': '',
-      'width': '',
-      'height': ''
-    });
-  }
 
