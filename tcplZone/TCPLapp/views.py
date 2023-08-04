@@ -1,37 +1,25 @@
 
-# from django.conf import settings
 from django.shortcuts import render,HttpResponse,redirect, get_object_or_404 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-# import urllib.request
 from django.template.loader import get_template
-# import csv
-from .models import Location, elements, Revenue1
+from .models import Location, elements, Revenue1,FinalPlu
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import LineString
 from django.contrib.gis.geos import GEOSGeometry
-import pyproj
+from django.contrib.gis.serializers.geojson import Serializer as GeoJSONSerializer
+from django.contrib.gis.db.models import Q
 import json
 import geopandas as gpd
 from pyproj import CRS
-# from fpdf import FPDF
-# from selenium import webdriver
-# import time
-# import base64
 import requests
-
-# from django.http import FileResponse
-# from django.template.loader import render_to_string
-# from xhtml2pdf import pisa
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from io import BytesIO
 import io
-
-
 
 
 #main ______________________________________________________________________
@@ -72,9 +60,7 @@ def registration(request):
         else:
             my_user=User.objects.create_user(uname,email,pass1)
             my_user.save()
-        # return HttpResponse('user has been created successfully!!!!!!')
         return redirect('login')
-        # print(uname,email,pass1,pass2)
     return render(request,"TCPLapp/registration.html")
 
 
@@ -90,7 +76,6 @@ def loginPage(request):
         else:
             # Handle invalid login credentials
             return render(request, 'TCPLapp/login.html', {'error': 'Invalid login credentials'})
-            # print(username,pass1)
         
     return render(request,"TCPLapp/login.html")
 
@@ -100,17 +85,6 @@ def LogoutPage(request):
     logout(request)
     return redirect('login')
 
-   
-#coordinates
-
-def coordinates(request):
-    return render(request,"TCPLapp/coordinates.html") 
-
-
-# #kml
-
-# def kml(request):
-#     return render(request,"TCPLapp/kml.html") 
 
 # index__________________________________________________
 
@@ -133,56 +107,81 @@ def autocomplete(request):
     return JsonResponse(products_list, safe=False)
 
 
-
-def searchOnClick(request):
-    
-    response = request.GET.get("selected_value").split(",")
-    villageName, talukaName, gutNumber = response[0],response[1],response[2:]
-    print(gutNumber)
-    products1 = Revenue1.objects.filter(taluka=talukaName,  village_name_revenue=villageName, gut_number= str(gutNumber[0]))
-    print(products1,"++++++++++++++++++++++++++")
-    # coordinates_list = []
-
+def convert_To_Geojson(products1):
     for instance in  products1:
         coordinates_list = []
-        # if instance.geom.geom_type == 'Point':
-        #     coordinates_list.append(instance.geom.coords)
-        # # For LineString geometries:
-        # elif instance.geom.geom_type == 'LineString':
-        #     coordinates_list.append(instance.geom.coords)
-        # # For Polygon geometries:
-        # elif instance.geom.geom_type == 'Polygon':
-        #     # If you need the outer ring (exterior) coordinates of the polygon:
-        #     coordinates_list.append(instance.geom.coords[0])
-        # elif instance.geom.geom_type == 'MultiPolygon':
-            # If you need the outer ring (exterior) coordinates of the polygon:
-        # coordinates_list.append(instance.geom.coords[0])
-        # print(instance.geom.coords[0])
-  
         geom_geojson = GEOSGeometry(json.dumps({"type": "MultiPolygon", "coordinates": [instance.geom.coords[0]]}))
-        
-        geom_geojson.transform(4326)  # Change the SRID to 4326
-        
         feature = {
         "type": "Feature",
         "geometry": json.loads(geom_geojson.geojson),
         "properties": {
             "village_name_revenue": instance.village_name_revenue,
             "taluka": instance.taluka,
-                        }
-                }
+                        } }
         coordinates_list.append(feature)
- 
-
         geojson_data = {
                     "type": "FeatureCollection",
                     "features": coordinates_list
                             }
-    # print(geojson_data,"{{{{{{{{{{{{}}}}}}}}}}}}")
-    data = {"message": "Data from onclick"}
-    
-    return JsonResponse(geojson_data, safe=False)
   
+    return geojson_data
+
+def searchOnClick(request):
+    response = request.GET.get("selected_value").split(",")
+    villageName, talukaName, gutNumber = response[0],response[1],response[2:]
+    products1 = Revenue1.objects.filter(taluka=talukaName,  village_name_revenue=villageName, gut_number= str(gutNumber[0]))
+    geojson_gut = convert_To_Geojson(products1)
+    
+    intersection_query = Q(geom__intersects=products1[0].geom)
+    for product in products1[1:]:
+        intersection_query |= Q(geom__intersects=product.geom)
+    plu = FinalPlu.objects.filter(intersection_query)
+    for Iplu in plu:
+        intersection_area = Iplu.geom.intersection(products1[0].geom).area
+    # You can adjust the calculation based on your use case and data model
+        # print(f"PLU ID: {Iplu.broad_lu}, Iplu.shape_area : {Iplu.shape_area},Intersection Area: {intersection_area}")
+       
+    # #  layer intersection of plu and gut number
+    # intersected_geometries = []
+    # for Irevenue in products1:
+    #     for Iplu in plu:
+    #         intersection = Irevenue.geom.intersection(Iplu.geom)
+    #         if intersection:
+    #             intersected_geometries.append(intersection)
+    #         else:
+    # print(intersected_geometries,"_______________________________________")
+    # for d in intersected_geometries:
+    #     print(d,"{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}")
+    
+    # intersection_json = convert_To_Geojson(intersected_geometries)
+    # print(intersection_json)
+   
+    return JsonResponse(geojson_gut, safe=False)
+
+def Out_table(request):
+    response = request.GET.get("selected_value").split(",")
+    villageName, talukaName, gutNumber = response[0], response[1], response[2:]
+    products1 = Revenue1.objects.filter(taluka=talukaName, village_name_revenue=villageName, gut_number=str(gutNumber[0]))
+    intersection_query = Q(geom__intersects=products1[0].geom)
+
+    for product in products1[1:]:
+        intersection_query |= Q(geom__intersects=product.geom)
+    plu = FinalPlu.objects.filter(intersection_query)
+    data = []
+    for Iplu in plu:
+        intersection_area = Iplu.geom.intersection(products1[0].geom).area
+      
+        data.append(Iplu.broad_lu)
+        data.append(intersection_area)
+        
+    data1 = {
+        "Village_Name": villageName,
+        "Taluka_Name": talukaName,
+        "Gut_Number": gutNumber,
+        "selected_values": data
+    }
+    return JsonResponse(data1, safe=False)
+     
 # Save BookMarks_____________________________
 
 @csrf_exempt
@@ -227,4 +226,4 @@ def delete_location(request):
             return JsonResponse({'message': 'Location not found.'}, status=404)
     else:
         return JsonResponse({'message': 'Invalid request method.'}, status=400)
-
+  

@@ -424,7 +424,8 @@
                         <button onclick="takeScreenshot()" id="save-btn" class="text-light border-0 " style="background:#004aad;    "><i class="fas fa-download"></i></button>
     
                     </div>-->
-                
+    
+                  </div>
     
                 </div>
             </section>
@@ -438,11 +439,12 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
       <!--html2pdf--> 
       <script src="{% static 'js/jspdf.umd.min.js' %}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.16/jspdf.plugin.autotable.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
       
   <!-- jquery -->
         <script>
-          
+          var logoimage = "{% static 'images/logo1.png' %}"; // Replace with the actual URL of your image
           var imageUrl = "{% static 'images/legend1.png' %}"; // Replace with the actual URL of your image
         </script>
                     <!--html2canvas-->

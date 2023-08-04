@@ -27,10 +27,6 @@ urlpatterns = [
     
     path('logout/',views.LogoutPage,name='logout'),
     
-    # path('selection/',views.selection,name='selection'),
-    
-    # path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
-    
     path('coordinates/',views.coordinates,name='coordinates'),
     
     path('index/', views.index,name='index'),
@@ -39,14 +35,13 @@ urlpatterns = [
     
     path('searchOnClick/', views.searchOnClick, name='searchOnClick'),
     
-   
+    path('Out_table/', views.Out_table, name='Out_table'),
+    
     path('save-location/', views.save_location, name='save_location'),
     
     path('get-locations/', views.get_locations, name='get_locations'),
     
     path('delete-location/', views.delete_location, name='delete_location'),
    
-    # path('generate_pdf/',views.generate_pdf_view, name='generate_pdf'),
     
-    # path("save-screenshot/",views.save_screenshot, name="save_screenshot"),
 ]

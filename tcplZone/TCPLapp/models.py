@@ -60,4 +60,26 @@ class Revenue1(models.Model):
     class Meta:
         managed = False
         db_table = 'revenue1'
+        
+        
+
+class FinalPlu(models.Model):
+    fid = models.BigIntegerField(primary_key=True)
+    geom = models.GeometryField(blank=True, null=True)
+    taluka = models.CharField(db_column='TALUKA', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    broad_lu = models.CharField(db_column='Broad_LU', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    detailed_l = models.CharField(db_column='Detailed_L', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    descriptio = models.CharField(db_column='Descriptio', max_length=150, blank=True, null=True)  # Field name made lowercase.
+    label = models.CharField(db_column='Label', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    area_ha = models.FloatField(db_column='Area_HA', blank=True, null=True)  # Field name made lowercase.
+    plu_zone = models.CharField(db_column='PLU_Zone', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    reservatio = models.CharField(db_column='Reservatio', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    pa_name = models.CharField(db_column='PA_Name', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    growth_centre = models.CharField(db_column='Growth_Centre', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    shape_length = models.FloatField(db_column='Shape_Length', blank=True, null=True)  # Field name made lowercase.
+    shape_area = models.FloatField(db_column='Shape_Area', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Final_PLU'
 

@@ -55,53 +55,25 @@ var wms_layer2 = L.tileLayer.wms(
   }
 );
 
+var wms_layer3 = L.tileLayer.wms(
+  "http://localhost:8080/geoserver/postgresql/wms",
+  {
+    layers: "postgresql:Final_PLU",
+    format: "image/png",
+    transparent: true,
+    version: "1.1.0",
+    attribution: "Final_PLU"
+  }
+);
 wms_layer.addTo(map);
 var WMSlayers = {
   VILLAGE_BOUNDARY: wms_layer,
-  revenue_new: wms_layer2
+  revenue_new: wms_layer2,
+  Final_PLU: wms_layer3
 
 };
 
 var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
-
-//!-- popup -->
-
-// map.on("contextmenu", e => {
-//   let size = map.getSize();
-//   let bbox = map.getBounds().toBBoxString();
-//   let layer = "DP:Modification_Overlay";
-//   let style = "DP:Modification_Overlay";
-//   let urrr = `http://portal.tcplgeo.com:8080/geoservers/DP/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&FORMAT=image%2Fpng&TRANSPARENT=true&QUERY_LAYERS=${layer}&STYLES&LAYERS=${layer}&exceptions=application%2Fvnd.ogc.se_inimage&INFO_FORMAT=application/json&FEATURE_COUNT=50&X=${Math.round(
-//     e.containerPoint.x
-//   )}&Y=${Math.round(
-//     e.containerPoint.y
-//   )}&SRS=EPSG%3A4326&WIDTH=${size.x}&HEIGHT=${size.y}&BBOX=${bbox}`;
-
-//   // you can use this url for further processing such as fetching data from server or showing it on the map
-
-//   if (urrr) {
-//     fetch(urrr).then(response => response.json()).then(html => {
-//       var htmldata = html.features[0].properties;
-//       let keys = Object.keys(htmldata);
-//       let values = Object.values(htmldata);
-//       let txtk1 = "";
-//       var xx = 0;
-//       for (let gb in keys) {
-//         txtk1 +=
-//           "<tr><td>" + keys[xx] + "</td><td>" + values[xx] + "</td></tr>";
-//         xx += 1;
-//       }
-//       let detaildata1 =
-//         "<div style='max-height: 350px;  overflow-y: scroll;'><table  style='width:70%;' class='popup-table' >" +
-//         txtk1 +
-//         "<tr><td>Co-Ordinates</td><td>" +
-//         e.latlng +
-//         "</td></tr></table></div>";
-
-//       L.popup().setLatLng(e.latlng).setContent(detaildata1).openOn(map);
-//     });
-//   }
-// });
 
 
 //<!-- googleEarth popup -->
@@ -109,7 +81,6 @@ var control = new L.control.layers(baseLayers, WMSlayers).addTo(map);
 map.on("dblclick", function(e) {
   var lat = e.latlng.lat.toFixed(15);
   var lng = e.latlng.lng.toFixed(15);
-  // console.log(lat, lng)
   var popupContent =
     '<a href="https://earth.google.com/web/search/' +
     lat +
@@ -285,7 +256,7 @@ measureControl.addTo(map);
 
               $("#btnData2").click(function() {
                   var selectedValue = $("#search-input").val();
-                  console.log("Selected Value:", selectedValue);
+                  // console.log("Selected Value:", selectedValue);
 
                  
 
@@ -296,7 +267,7 @@ measureControl.addTo(map);
                       dataType: "json",
                       success: function(response) {
                         
-                          console.log("Response:", response);
+                          // console.log("Response:", response);
 
                           geojsonFeatures = response.features;
 
@@ -312,7 +283,6 @@ measureControl.addTo(map);
                           
                       },
                       error: function(error) {
-                          console.log("Error:", error);
                       }
                   });
               });
@@ -325,13 +295,203 @@ measureControl.addTo(map);
 
 
 
+// for trial
+                // $(document).ready(function() {
 
 
+                //   var geojsonLayer; // Reference to the GeoJSON layer
+                //   var geojsonFeatures = []; // Array to store GeoJSON features
+    
+                //   $("#btnData2").click(function() {
+                //       var selectedValue = $("#search-input").val();
+                //       console.log("Selected Value second time:", selectedValue);
+    
+                //       $.ajax({
+                //           url: "/Out_table/",
+                //           method: "GET",
+                //           data: { "selected_value": selectedValue },
+                //           dataType: "json",
+                //           success: function(response) {
+                            
+                //               console.log("Response second:", response);
+                //               console.log("Response taluka:", response.Taluka_Name);
+                //               console.log("Response village:", response.Village_Name);
+                //               console.log("Response gut:", response.Gut_Number);
+
+                //               for (let i = 0; i < response.selected_values.length; i++) {
+                //                 const value = response.selected_values[i];
+                //                 console.log(value)
+                //                 // Do something with each value, such as adding it to the PDF table
+                //                 // Example: pdf.text(x, y + i * lineHeight, value);
+                //             }
+                              
+                //           },
+                //           error: function(error) {
+                //               console.log("Error:", error);
+                //           }
+                //       });
+                //   });
+                // });
+    
+    
+//                    $("#btnData1").click(function() {
+//                       ClearMe();
+//                     });
+    
+    
 
 
+ //pdf____________________________________________________________
+ 
 
 
+ function downloadPDF(username, email) {
+ const { jsPDF } = window.jspdf;
+  
+ html2canvas(document.getElementById('map'), {
+     useCORS: true
+ }).then(function(canvas) {
+     var imgData = canvas.toDataURL('image/png');
 
+     const pdf = new jsPDF('p', 'px', [canvas.width, canvas.height]);
+   
+     const fontSize = 36;
+     const text = 'TCPLgeo';
+  
+     const textWidth = pdf.getStringUnitWidth(text) * fontSize / pdf.internal.scaleFactor;
+     const textHeight = fontSize / pdf.internal.scaleFactor;
+
+     // Calculate the center position
+     const pageWidth = pdf.internal.pageSize.getWidth();
+     const pageHeight = pdf.internal.pageSize.getHeight();
+     const x = (pageWidth - textWidth) / 2;
+     const y = 70;
+
+          
+      // Set the line width for the border
+      pdf.setLineWidth(2);
+
+      // Draw a rectangle around the page to simulate a border
+      pdf.rect(5, 5, pageWidth - 10, pageHeight - 10); // Adjust the values for margins
+      
+// Draw the inner rectangle to simulate the inner line of the border
+pdf.rect(10, 10, pageWidth - 20, pageHeight - 20); // Adjust the values for margins
+
+     pdf.addImage(logoimage, 'PNG',(x-70) , 30, 60, 60);
+     // Get the height of the canvas element and add it to the PDF
+     var imgHeight = canvas.height;
+          // const fontSize = 25;
+          pdf.setFont('Times New Roman', 'bold'); // Use the regular variant
+      
+      
+          //  pdf.setFontSize(15);
+          //  pdf.setTextColor('black');
+          //  pdf.text((x+50), 90, ` Block number 22, Lokamanya Nagar, Sadashiv Peth, Pune, Maharashtra 411030`);
+           
+
+         
+           // Add text above the map (centered both horizontally and vertically)
+           pdf.setFont('Times New Roman', 'bold');
+           pdf.setFontSize(fontSize);
+           pdf.setTextColor('#004aac');
+           pdf.text(x, y, text);
+     
+
+
+           // Add user's name to the PDF_______________________________________________________
+           const uppercaseUsername = username.toUpperCase();
+           pdf.setFont('Times New Roman', 'bold');
+           pdf.setFontSize(16);
+           pdf.setTextColor('black');
+           pdf.text(20, 150, `User:       ${uppercaseUsername} `, null, null, 'left');
+          
+          //  pdf.text(70, 150, username , null, null, 'left');
+     
+           // Add user's email to the PDF
+           pdf.setTextColor('black');
+           pdf.setFont('Times New Roman', 'bold');
+           pdf.text(20, 170, `Email:`, null, null, 'left');
+           pdf.setTextColor('black');
+           pdf.text(70, 170, email, null, null, 'left');
+
+
+          //  Date__________________________________________________________________________________
+                  const currentDate = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric',};
+        const formattedDate = currentDate.toLocaleDateString('en-US', options);
+
+        const rightAlignedX = pdf.internal.pageSize.getWidth() - pdf.getStringUnitWidth(formattedDate) * 12;
+        // const y = 110; // Adjust the Y coordinate as needed
+        
+        // Add the formatted date to the PDF
+        pdf.setFontSize(15);
+        pdf.setTextColor('black');
+        pdf.text(rightAlignedX, 150, `Date: ${formattedDate}`, null, null, 'right');
+
+        pdf.setFontSize(15);
+        pdf.setTextColor('black');
+        pdf.text(rightAlignedX, 1350, 'TCPLgeo', null, null, 'right');
+// map_______________________________________________________________________
+     
+             // Add the image to the PDF without any scaling or clipping
+           pdf.addImage(imgData, 'PNG', 30, 200, 780, 700);
+
+          //  legend___________________________________________________________________
+
+           pdf.addImage(imageUrl, 'PNG', 30, 900, 750, 200); // Adjust the coordinates and size as needed
+
+
+          //  table________________________________________________________________
+                         
+           var selectedValue = $("#search-input").val();
+          //  console.log("Selected Value second time:", selectedValue);
+           
+           $.ajax({
+               url: "/Out_table/",
+               method: "GET",
+               data: { "selected_value": selectedValue },
+               dataType: "json",
+               success: function(response) {
+                var startY = 1150; 
+                
+                pdf.autoTable({
+                  head: [['TALUKA_NAME', 'VILLAGE_NAME','GUT_NUMBER','PLU_ZONE']],
+                  body: [[response.Taluka_Name, response.Village_Name,response.Gut_Number,response.selected_values]
+                  // ,['','','',response.selected_values[1]],['','','',response.selected_values[2]]
+                ],
+                  startY: startY,
+                  styles: {
+                    cellPadding: 5,
+                    fontSize: 12,
+                    fontStyle: 'bold',
+                   
+                    lineWidth: 0.2
+                }
+                });
+                // console.log(response.selected_values,'aaaaaaaaa')
+
+ //  NOTE________________________________________________________________
+
+                // pdf.setFont('MyCustomFont');
+                pdf.setFontSize(15);
+                pdf.setTextColor('black');
+                pdf.text(30, 1300, 'NOTE :  This is sample data of Zone-Certificate');
+                // Sign_____________________________
+            
+               
+                
+                          pdf.save('TCPLmaps.pdf');
+               },
+               error: function(error) {
+                  //  console.log("Error:", error);
+               }
+           });
+                
+           
+    
+          });
+         }
+    
 // Bookmark_____________________________________________________________________
 $(document).ready(function() {
   var saveBtn = document.getElementById('saveBtn');
@@ -390,10 +550,10 @@ $(document).ready(function() {
         username: username
       },
       success: function(response) {
-        console.log(response.message); // Log the response message
+        // console.log(response.message); // Log the response message
       },
       error: function(xhr, errmsg, err) {
-        console.log(xhr.status + ': ' + xhr.responseText);
+        // console.log(xhr.status + ': ' + xhr.responseText);
       }
     });
   }
@@ -477,11 +637,11 @@ $(document).ready(function() {
         locationId: locationId,
       },
       success: function (response) {
-        console.log(response.message); // Log the response message
+        // console.log(response.message); // Log the response message
         row.remove(); // Remove the deleted row from the table
       },
       error: function (xhr, errmsg, err) {
-        console.log(xhr.status + ": " + xhr.responseText);
+        // console.log(xhr.status + ": " + xhr.responseText);
       },
     });
   }
@@ -491,67 +651,4 @@ $(document).ready(function() {
 });
 
 
-    //pdf____________________________________________________________
- 
-
-
-function downloadPDF(username, email) {
-  const { jsPDF } = window.jspdf;
-      // html2canvas(document.querySelector('.leaflet-container'),{
-      //   useCORS: true
-      // }).then(function (canvas) {
-        
-  html2canvas(document.getElementById('map'), {
-      useCORS: true
-  }).then(function(canvas) {
-      var imgData = canvas.toDataURL('image/png');
-
-      // var pdf = new jsPDF();
-      const pdf = new jsPDF('p', 'px', [canvas.width, canvas.height]);
-      
-
-      // Get the height of the canvas element and add it to the PDF
-      var imgHeight = canvas.height;
-      const text = 'TCPLgeo';
-            const fontSize = 25;
-            
-            const textWidth = pdf.getStringUnitWidth(text) * fontSize / pdf.internal.scaleFactor;
-            const textHeight = fontSize / pdf.internal.scaleFactor;
-      
-            // Calculate the center position
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
-            const x = (pageWidth - textWidth) / 2;
-            const y = 30;
-      
-            // Add text above the map (centered both horizontally and vertically)
-            pdf.setFontSize(fontSize);
-            pdf.setTextColor('blue');
-            pdf.text(x, y, text);
-      
-            // Add user's name to the PDF
-            pdf.setFontSize(16);
-            pdf.setTextColor('black');
-            pdf.text(20, 40, `User:`, null, null, 'left');
-           
-            pdf.text(70, 40, username, null, null, 'left');
-      
-            // Add user's email to the PDF
-            pdf.setTextColor('black');
-            pdf.text(20, 60, `Email:`, null, null, 'left');
-            pdf.setTextColor('blue');
-            pdf.text(70, 60, email, null, null, 'left');
-      
-              // Add the image to the PDF without any scaling or clipping
-                pdf.addImage(imgData, 'PNG', 30, 70, 750, 400);
-      
-                // Add the image below the map
-                
-               
-                pdf.addImage(imageUrl, 'PNG', 30, 500, 750, 200); // Adjust the coordinates and size as needed
-      
-      pdf.save('TCPLmap.pdf');
-     
-  });
-}
-
+   
